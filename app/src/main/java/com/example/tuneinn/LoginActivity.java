@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,32 +21,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editEmail, editPassword;
     FirebaseAuth mAuth;
+
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button loginButton = (Button) findViewById(R.id.loginButton);
-//        Button signupButton = (Button) findViewById(R.id.signupButton);
-        Button gotoRegisterButton = (Button) findViewById(R.id.gotoRegisterButton);
-//        Button gotoSigninButton = (Button) findViewById(R.id.gotoSigninButton);
-//        Button logoutButton = (Button) findViewById(R.id.logoutButton);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        Button gotoRegisterButton = (Button) findViewById(R.id.gotoRegisterButton);
+        mAuth = FirebaseAuth.getInstance();
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginUser();
-//                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-//                finish();
             }
         });
 
-//        signupButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                setContentView(R.layout.homepage);
-//            }
-//        });
-//
         gotoRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,25 +55,25 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email)){
             editEmail.setError("Email cannot be empty");
             editEmail.requestFocus();
-        }else if (TextUtils.isEmpty(password)){
+        }
+        if (TextUtils.isEmpty(password)){
             editPassword.setError("Password cannot be empty");
             editPassword.requestFocus();
-        }else{
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });
-
         }
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "Log in Successful", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    finish();
+                }else{
+                    Toast.makeText(LoginActivity.this, "Log in Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
