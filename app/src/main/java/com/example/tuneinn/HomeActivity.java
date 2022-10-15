@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Button logoutButton = (Button) findViewById(R.id.logoutButton);
+        Button playerButton = (Button) findViewById(R.id.playerButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,6 +24,13 @@ public class HomeActivity extends AppCompatActivity {
 //                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                 finish();
+            }
+        });
+
+        playerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, MusicActivity.class));
             }
         });
     }
