@@ -37,6 +37,13 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, editProfileActivity.class));
+                finish();
+            }
+        });
 
         TextView userNameText = (TextView) findViewById(R.id.userNameText);
         TextView emailText = (TextView) findViewById(R.id.emailText);
