@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,10 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //id for buttons
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         Button loginButton = (Button) findViewById(R.id.loginButton);
         Button gotoRegisterButton = (Button) findViewById(R.id.gotoRegisterButton);
+        editEmail = (EditText) findViewById(R.id.editEmail);
+        editPassword = (EditText) findViewById(R.id.editPassword);
+
+
         mAuth = FirebaseAuth.getInstance();
+
+        //login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //switching to register page
         gotoRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,19 +55,24 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-        editEmail = (EditText) findViewById(R.id.editEmail);
-        editPassword = (EditText) findViewById(R.id.editPassword);
+
+
     }
     private void loginUser(){
         String password = editPassword.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
-        if (TextUtils.isEmpty(email)){
-            editEmail.setError("Email cannot be empty");
+
+        //error checking
+        if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editEmail.setError("Please enter a valid email");
             editEmail.requestFocus();
+            return;
         }
-        if (TextUtils.isEmpty(password)){
-            editPassword.setError("Password cannot be empty");
+
+        if(password.isEmpty()){
+            editPassword.setError("Password field cannot be empty!");
             editPassword.requestFocus();
+            return;
         }
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

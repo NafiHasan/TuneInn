@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "122899034402",
+    "firebase_url": "https://tuneinnf-default-rtdb.firebaseio.com",
     "project_id": "tuneinnf",
     "storage_bucket": "tuneinnf.appspot.com"
   },

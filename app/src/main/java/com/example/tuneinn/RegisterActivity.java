@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
     //firebase variables
@@ -29,7 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Button GotoSigninButton = (Button) findViewById(R.id.gotoSigninButton);
         Button signupButton = (Button) findViewById(R.id.signupButton);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         GotoSigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,33 +72,79 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-            if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                editUsername.setError("Please enter a valid email");
-                editUsername.requestFocus();
-                return;
-            }
-
-        if(password.isEmpty()){
-            editUsername.setError("Password field cannot be empty!");
-            editUsername.requestFocus();
+        if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editEmail.setError("Please enter a valid email");
+            editEmail.requestFocus();
             return;
         }
 
+        if(password.isEmpty()){
+            editPassword.setError("Password field cannot be empty!");
+            editPassword.requestFocus();
+            return;
+        }
+
+
         progressBar.setVisibility(View.VISIBLE);
+//        mAuth.createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(RegisterActivity.this, "Authentication done.",
+//                                    Toast.LENGTH_SHORT).show();
+////                            progressBar.setVisibility(View.GONE);
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//
+//                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+//                            finish();
+//                        } else {
+//                            Toast.makeText(RegisterActivity.this, "Authentication failed."
+//                                            + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//
+////                            progressBar.setVisibility(View.GONE);
+//                        }
+//                    }
+//                });
+
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Authentication done.",
-                                    Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+
+                        if(task.isSuccessful()){
+                            User user = new User(name, email, password);
+
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(RegisterActivity.this,
+                                                        "Authentication done.", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+
+//                                                FirebaseUser user = mAuth.getCurrentUser();
+                                                startActivity(new Intent(RegisterActivity.this,
+                                                        HomeActivity.class));
+
+                                                finish();
+                                            }
+                                            else {
+                                                Toast.makeText(RegisterActivity.this,
+                                                        "Authentication failed." + task.getException()
+                                                                .getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            Toast.makeText(RegisterActivity.this, "Authentication failed."
+                                            + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+
                             progressBar.setVisibility(View.GONE);
                         }
                     }
