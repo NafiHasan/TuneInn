@@ -1,7 +1,9 @@
 package com.example.tuneinn;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +27,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ImageView albumArt;
     ArrayList<Song> mySongs;
     Song currentSong;
+
+    ActionBar actionBar;
+
+    @Nullable
+    @Override
+    public ActionBar getActionBar() {
+        return super.getActionBar();
+    }
 
     MediaPlayer musicPlayer = MusicPlayer.getInstance();
     @Override

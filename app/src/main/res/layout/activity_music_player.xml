@@ -1,4 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#4169E1" tools:context=".MusicPlayerActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4169E1" tools:context=".MusicPlayerActivity">
 
     <TextView
         android:id="@+id/musicTitle"
@@ -14,7 +20,10 @@
         android:text="Title of the song"
         android:textColor="@color/white"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/musicPlayerControls" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/albumArt"/>
+        app:layout_constraintBottom_toTopOf="@id/musicPlayerControls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/albumArt"/>
     <ImageView android:id="@+id/albumArt" android:layout_width="240dp" android:layout_height="240dp" android:layout_above="@+id/musicPlayerControls" android:layout_below="@+id/musicTitle" android:layout_marginStart="85dp" android:layout_marginTop="150dp" android:layout_marginEnd="86dp" android:padding="20dp" android:src="@drawable/ic_baseline_music_note_24" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@id/musicTitle"/>
     <RelativeLayout android:id="@+id/musicPlayerControls" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_marginBottom="117dp" android:padding="20dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/musicTitle" app:layout_constraintVertical_bias="1.0">
         <SeekBar android:id="@+id/musicBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:backgroundTint="@color/white"/>
