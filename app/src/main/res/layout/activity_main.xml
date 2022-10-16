@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/dark_green"
     tools:context=".MainActivity">
 
     <TextView
@@ -47,15 +47,18 @@
         android:drawablePadding="20dp"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginbutton"
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"
-        android:text="LOGIN"
-        android:textSize="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/dark_blue"
-        android:layout_margin="40dp"/>
+        android:text="LOGIN"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"

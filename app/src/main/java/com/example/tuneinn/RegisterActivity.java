@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -36,13 +37,14 @@ public class RegisterActivity extends AppCompatActivity {
         //firebase variable
         mAuth = FirebaseAuth.getInstance();
 
-        Button GotoSigninButton = (Button) findViewById(R.id.gotoSigninButton);
+        Button gotoSigninButton = (Button) findViewById(R.id.gotoSigninButton);
         Button signupButton = (Button) findViewById(R.id.signupButton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        GotoSigninButton.setOnClickListener(new View.OnClickListener() {
+        gotoSigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
         });
