@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(RegisterActivity.this,
-                                                        "Authentication done.", Toast.LENGTH_SHORT).show();
+                                                        "Successfully Registered.", Toast.LENGTH_SHORT).show();
                                                 progressBar.setVisibility(View.GONE);
 
 //                                                FirebaseUser user = mAuth.getCurrentUser();
@@ -135,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                             else {
                                                 Toast.makeText(RegisterActivity.this,
-                                                        "Authentication failed." + task.getException()
+                                                        "Registration failed." + task.getException()
                                                                 .getMessage(), Toast.LENGTH_SHORT).show();
 
                                                 progressBar.setVisibility(View.GONE);
