@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ public class MusicActivity extends AppCompatActivity {
     Cursor cursor;
     File file;
     Song song;
+    Uri uri;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -57,6 +59,7 @@ public class MusicActivity extends AppCompatActivity {
     {
         songListRecyclerView = findViewById(R.id.songs_recycler_view);
         mySongs = new ArrayList<>();
+        uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
     }
 
     boolean hasAccessToStorage()
@@ -67,10 +70,12 @@ public class MusicActivity extends AppCompatActivity {
 
     void getDataFromStorage()
     {
-        cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[] {
+        cursor = getContentResolver().query(uri, new String[] {
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.DURATION
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.ALBUM
         }, MediaStore.Audio.Media.IS_MUSIC + " != 0", null, null);
     }
 
@@ -78,7 +83,7 @@ public class MusicActivity extends AppCompatActivity {
     {
         while(cursor.moveToNext())
         {
-            song = new Song(cursor.getString(0),cursor.getString(1),cursor.getString(2));
+            song = new Song(cursor.getString(0),cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4));
             file = new File(song.getData());
 
             if(file.exists()) mySongs.add(song);
@@ -86,5 +91,6 @@ public class MusicActivity extends AppCompatActivity {
             songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             songListRecyclerView.setAdapter(new MusicAdapter(mySongs, getApplicationContext()));
         }
+        cursor.close();
     }
 }

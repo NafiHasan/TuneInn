@@ -2,6 +2,8 @@ package com.example.tuneinn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +13,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
 {
+    ArrayList<Song> mySongs;
+    Context context;
+
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView titleTextView;
-
+        TextView musicFileName;
+        ImageView albumArt;
         ViewHolder(View itemView)
         {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.music_title_text);
+            musicFileName = itemView.findViewById(R.id.music_file_name);
+            albumArt = itemView.findViewById(R.id.music_image);
         }
     }
-
-    ArrayList<Song> mySongs;
-    Context context;
 
     public MusicAdapter(ArrayList<Song> mySongs, Context context) {
         this.mySongs = mySongs;
@@ -44,7 +49,19 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Song song = mySongs.get(position);
-        holder.titleTextView.setText(song.getTitle());
+        holder.musicFileName.setText(song.getTitle());
+
+        byte[] albumArts = getAlbumArt(song.getData());
+
+        if(albumArts != null)
+        {
+            Glide.with(context).asBitmap().load(albumArts).into(holder.albumArt);
+        }
+
+        else
+        {
+            Glide.with(context).load(R.drawable.ic_baseline_music_note_24).into(holder.albumArt);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,5 +79,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
     @Override
     public int getItemCount() {
         return mySongs.size();
+    }
+
+    private byte[] getAlbumArt(String uri)
+    {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] albumArt = retriever.getEmbeddedPicture();
+        retriever.release();
+        return albumArt;
     }
 }
