@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,8 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
-    public static String userName, userEmail, userPassword;
+    public static String userName, userEmail, userPassword, favGenre, imageURL;
+    public static boolean done = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
                     userName = userProfile.name;
                     userEmail = userProfile.email;
                     userPassword = userProfile.password;
+                    favGenre = userProfile.genre;
+                    imageURL = userProfile.URL;
                 }
             }
 
@@ -78,5 +83,41 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Error in database!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    static void updateProfile(String name, String email, String password, String genre, String url){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        String userID = user.getUid();
+
+//        boolean done = false;
+
+        User userProfile = new User();
+        userProfile.updateUser(name, email, password, genre, url);
+        reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    done = true;
+                    System.out.println("done");
+                    userName = userProfile.name;
+                    userEmail = userProfile.email;
+                    userPassword = userProfile.password;
+                    favGenre = userProfile.genre;
+                    imageURL = userProfile.URL;
+                }
+                else {
+                    done = false;
+                    System.out.println("Wrong");
+                }
+            }
+        });
+//            userProfile.name = name;
+//            userProfile.email = email;
+//            userProfile.password = password;
+//            userProfile.genre = genre;
+//            userProfile.URL = url;
+//                System.out.println("Changed");
+
     }
 }
