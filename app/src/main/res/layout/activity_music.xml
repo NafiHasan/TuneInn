@@ -7,6 +7,21 @@
     android:background="@color/dark_green"
     tools:context=".MusicActivity">
 
+
+
+
+    <Button
+        android:id="@+id/playlistButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:text="Playlists                                           >"
+        app:layout_constraintBottom_toTopOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/dark_green" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -17,11 +32,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playlistButton"
         app:layout_constraintVertical_bias="0.064"
         android:textSize="28dp"
         android:textStyle="bold"
-        android:padding="10dp"/>
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -42,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/songs_recycler_view"
+        android:layout_marginBottom="20dp"
         >
 
     <fragment
