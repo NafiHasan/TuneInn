@@ -1,7 +1,10 @@
 package com.example.tuneinn;
 
+import java.util.ArrayList;
+
 public class User {
     public String name, email, password, genre, URL;
+    public ArrayList<Playlist> playlists;
 
     public User(){
 
@@ -20,5 +23,9 @@ public class User {
         this.password = password;
         this.genre = genre;
         this.URL = URL;
+    }
+
+    public void addPlaylist(Playlist playlist){
+        playlists.add(playlist);
     }
 }
