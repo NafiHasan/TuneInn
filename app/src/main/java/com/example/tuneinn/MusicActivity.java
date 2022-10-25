@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,6 +28,7 @@ public class MusicActivity extends AppCompatActivity {
     File file;
     Song song;
     Uri uri;
+    FrameLayout frag_bottom_player;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -87,10 +89,10 @@ public class MusicActivity extends AppCompatActivity {
             file = new File(song.getData());
 
             if(file.exists()) mySongs.add(song);
-
-            songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            songListRecyclerView.setAdapter(new MusicAdapter(mySongs, getApplicationContext()));
         }
+
+        songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        songListRecyclerView.setAdapter(new MusicAdapter(mySongs, getApplicationContext()));
         cursor.close();
     }
 }

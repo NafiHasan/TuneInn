@@ -4,12 +4,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
-    TextView musicTitle;
+    TextView musicFileName;
+    TextView artistName;
     TextView currentTime;
     TextView totalTime;
     SeekBar musicBar;
@@ -27,6 +32,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ImageView albumArt;
     ArrayList<Song> mySongs;
     Song currentSong;
+    Uri uri;
 
     ActionBar actionBar;
 
@@ -88,14 +94,33 @@ public class MusicPlayerActivity extends AppCompatActivity {
     void setUpMusicPlayer()
     {
         currentSong = mySongs.get(SongPosition.currentSongPosition);
-
-        musicTitle.setText(currentSong.getTitle());
+        SongPosition.currentlyPLayingSong = currentSong;
+        uri = Uri.parse(currentSong.getData());
+        musicFileName.setText(currentSong.getTitle());
+        SongPosition.currentSongName = currentSong.getTitle();
+        BottomPlayerFragment.songFileName.setText(SongPosition.currentSongName);
+        //artistName.setText(currentSong.getArtist());
 
         totalTime.setText(convert(currentSong.getDuration()));
         pauseOrPlayButton.setImageResource(R.drawable.pause_circle);
         pauseOrPlayButton.setOnClickListener(v -> pauseOrPlayCurrentSong());
         nextSongButton.setOnClickListener(v -> playNextSong());
         previousSongButton.setOnClickListener(v -> playPreviousSong());
+
+        byte[] albumArts = getAlbumArt(currentSong.getData());
+        SongPosition.currentArt = albumArts;
+
+        if(albumArts != null)
+        {
+            Glide.with(this).asBitmap().load(albumArts).into(albumArt);
+            //Glide.with(this).asBitmap().load(SongPosition.currentArt).into(BottomPlayerFragment.albumArt);
+        }
+
+        else
+        {
+            Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(albumArt);
+            //Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(BottomPlayerFragment.albumArt);
+        }
 
         playMusic();
     }
@@ -162,7 +187,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     void setID()
     {
-        musicTitle = findViewById(R.id.musicTitle);
+        musicFileName = findViewById(R.id.musicFileName);
         currentTime = findViewById(R.id.currentTime);
         totalTime = findViewById(R.id.totalTime);
         musicBar = findViewById(R.id.musicBar);
@@ -171,6 +196,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
         previousSongButton = findViewById(R.id.previousSong);
         albumArt = findViewById(R.id.albumArt);
         mySongs = (ArrayList<Song>) getIntent().getSerializableExtra("ABC");
-        musicTitle.setSelected(true);
+        musicFileName.setSelected(true);
+    }
+
+    private byte[] getAlbumArt(String uri)
+    {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] albumArt = retriever.getEmbeddedPicture();
+        retriever.release();
+        return albumArt;
     }
 }
