@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BottomPlayerFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_bottom_player"
+        android:background="@color/teal_200"
+        android:padding="5dp"
+        >
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/bottomFragAlbumArt"
+            android:src="@drawable/ic_baseline_music_note_24"
+            android:scaleType="centerCrop"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/skipNextBottom"
+            android:src="@drawable/ic_baseline_skip_next_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/playPauseBottom"
+            android:src="@drawable/play_circle"
+            android:layout_toStartOf="@id/skipNextBottom"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/skipPrevBottom"
+            android:src="@drawable/skip_previous"
+            android:layout_toStartOf="@id/playPauseBottom"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/songFIleNameBottom"
+            android:text="Song File name"
+            android:textColor="@color/white"
+            android:layout_toEndOf="@id/bottomFragAlbumArt"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/skipPrevBottom"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            />
+    </RelativeLayout>
+</FrameLayout>
