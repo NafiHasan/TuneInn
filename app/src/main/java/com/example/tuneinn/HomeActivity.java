@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -75,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                     userPassword = userProfile.password;
                     favGenre = userProfile.genre;
                     imageURL = userProfile.URL;
+                    System.out.println("got " + imageURL);
                 }
             }
 
@@ -93,31 +95,25 @@ public class HomeActivity extends AppCompatActivity {
 //        boolean done = false;
 
         User userProfile = new User();
+        System.out.println("Hello" + url);
         userProfile.updateUser(name, email, password, genre, url);
+
         reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     done = true;
-                    System.out.println("done");
                     userName = userProfile.name;
                     userEmail = userProfile.email;
                     userPassword = userProfile.password;
                     favGenre = userProfile.genre;
-                    imageURL = userProfile.URL;
+//                    imageURL = userProfile.URL;
                 }
                 else {
                     done = false;
-                    System.out.println("Wrong");
+//                    System.out.println("Wrong");
                 }
             }
         });
-//            userProfile.name = name;
-//            userProfile.email = email;
-//            userProfile.password = password;
-//            userProfile.genre = genre;
-//            userProfile.URL = url;
-//                System.out.println("Changed");
-
     }
 }

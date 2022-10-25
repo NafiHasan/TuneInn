@@ -1,5 +1,8 @@
 package com.example.tuneinn;
 
+import android.net.Uri;
+
+import java.net.URI;
 import java.util.ArrayList;
 
 public class User {

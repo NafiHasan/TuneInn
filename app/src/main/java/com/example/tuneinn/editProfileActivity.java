@@ -19,11 +19,17 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.UUID;
 
 public class editProfileActivity extends AppCompatActivity {
@@ -33,16 +39,19 @@ public class editProfileActivity extends AppCompatActivity {
     private Button goBackButton, uploadImageButton, saveProfileButton;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private String filepath, downloadURL;
+//    DatabaseReference mUserRef;
+//    FirebaseAuth mAuth;
+//    FirebaseUser mUser;
+    private String filepath, downloadURL, Uid;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
+
                 @Override
                 public void onActivityResult(Uri uri) {
-                    //You are provided with uri of the image . Take this uri and assign it to Picasso
                     if(uri != null){
                         profileImageView.setImageURI(uri);
-                        filepath = uri.getPath();
+                        HomeActivity.imageURL = uri.toString();
                         downloadURL = uri.toString();
                         uploadImagetoDB(uri);
                     }
@@ -63,6 +72,8 @@ public class editProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
+//                String id = mUserRef.push().getKey();
+//                mUserRef.child(id).setValue(uri.toString());
                 Snackbar.make(findViewById(android.R.id.content), "Image Uploaded.", Snackbar.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -95,17 +106,22 @@ public class editProfileActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassword);
         editGenre = findViewById(R.id.editGenre);
 
+//        mAuth = FirebaseAuth.getInstance();
+//        mUser = mAuth.getCurrentUser();
+//        mUserRef = FirebaseDatabase.getInstance().getReference().child("Image");
+//        Uid = mUser.getUid();
+
+
         if(HomeActivity.userName != null){
             editUserName.setText(HomeActivity.userName);
             editEmail.setText(HomeActivity.userEmail);
             editPassword.setText(HomeActivity.userPassword);
             editGenre.setText(HomeActivity.favGenre);
+            Picasso.get().load(HomeActivity.imageURL).into(profileImageView);
         }
-
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
 
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
@@ -128,14 +144,12 @@ public class editProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 HomeActivity.updateProfile(editUserName.getText().toString(), editEmail.getText().toString(),
                         editPassword.getText().toString(), editGenre.getText().toString(), downloadURL);
-//                updateUser(editUserName.getText().toString(), editEmail.getText().toString(),
-//                        editPassword.getText().toString(), editGenre.getText().toString(), downloadURL);
+
+
                 if(HomeActivity.done == true){
                     Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_LONG).show();
-                    editUserName.setText(HomeActivity.userName);
-                    editEmail.setText(HomeActivity.userEmail);
-                    editPassword.setText(HomeActivity.userPassword);
-                    editGenre.setText(HomeActivity.favGenre);
+                    startActivity(new Intent(editProfileActivity.this, ProfileActivity.class));
+//                    finish();
                 }
             }
         });
