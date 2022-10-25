@@ -49,7 +49,7 @@
         android:layout_height="52dp"
 
         android:text="Email : "
-        android:textAlignment="viewEnd"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -81,7 +81,7 @@
         app:layout_constraintVertical_bias="0.519" />
 
     <Button
-        android:id="@+id/editProfileButton"
+        android:id="@+id/saveProfileButton"
         android:layout_width="183dp"
         android:layout_height="70dp"
 
@@ -111,10 +111,10 @@
 
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editProfileButton"
+        app:layout_constraintEnd_toEndOf="@+id/saveProfileButton"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editProfileButton"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileButton"
+        app:layout_constraintStart_toStartOf="@+id/saveProfileButton"
+        app:layout_constraintTop_toBottomOf="@+id/saveProfileButton"
         app:layout_constraintVertical_bias="0.196" />
 
     <ImageView
@@ -128,6 +128,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.063"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/genreTextView"
+        android:layout_width="125dp"
+        android:layout_height="63dp"
+        android:text="Favourite Genre :"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/emailTextView"
+        app:layout_constraintHorizontal_bias="0.629"
+        app:layout_constraintStart_toStartOf="@+id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/genreText"
+        android:layout_width="228dp"
+        android:layout_height="61dp"
+        android:text="Not Selected"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/emailText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/emailText"
+        app:layout_constraintTop_toBottomOf="@+id/emailText"
+        app:layout_constraintVertical_bias="0.095" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
