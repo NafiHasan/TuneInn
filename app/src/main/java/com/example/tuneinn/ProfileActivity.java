@@ -44,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profileImageView);
         genreText = findViewById(R.id.genreText);
 
+
+
         if(HomeActivity.userName != null){
             userNameText.setText(HomeActivity.userName);
             emailText.setText(HomeActivity.userEmail);

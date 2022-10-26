@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/ic_baseline_music_note_24.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/pause_circle.xml" value="0.19" />
@@ -12,7 +13,7 @@
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18177083333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_music.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_music_player.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18177083333333333" />
