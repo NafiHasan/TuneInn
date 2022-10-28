@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ public class MusicActivity extends AppCompatActivity {
     Song song;
     Uri uri;
     FrameLayout frag_bottom_player;
+    Button playlists;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -55,6 +59,13 @@ public class MusicActivity extends AppCompatActivity {
 
         getDataFromStorage();
         addSong();
+        playlists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MusicActivity.this,PlaylistActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void setID()
@@ -62,6 +73,7 @@ public class MusicActivity extends AppCompatActivity {
         songListRecyclerView = findViewById(R.id.songs_recycler_view);
         mySongs = new ArrayList<>();
         uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        playlists= findViewById(R.id.playlistButton);
     }
 
     boolean hasAccessToStorage()

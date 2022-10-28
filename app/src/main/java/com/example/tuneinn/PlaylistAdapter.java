@@ -41,10 +41,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onBindViewHolder(@NonNull PlaylistAdapter.ViewHolder holder, int position) {
         Playlist playlist= playlists.get(position);
         ArrayList<Song> songs = playlist.getSongs();
+        holder.playlistName.setText(playlist.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaylistInfo.currentPlaylistPosition= holder.getAdapterPosition();
+                //PlaylistInfo.currentPlaylistPosition= holder.getAdapterPosition();
                 //RecyclerView songListRecyclerView = findViewById(R.id.songs_recycler_view);
                 /*MusicPlayer.getInstance().reset();
                 SongPosition.currentSongPosition = position;

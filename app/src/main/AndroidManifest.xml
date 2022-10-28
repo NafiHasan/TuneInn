@@ -37,6 +37,12 @@
             android:name=".MusicActivity"
             android:exported="false" />
         <activity
+            android:name=".PlaylistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlaylistCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false">
             <meta-data
