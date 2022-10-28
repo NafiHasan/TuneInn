@@ -3,7 +3,9 @@ package com.example.tuneinn;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -17,6 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,8 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadSharedPreferenceData();
                 //loginUser();
-               startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
         });
 
@@ -59,6 +67,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    private void loadSharedPreferenceData() {
+        SharedPreferences sharedPreferences= getSharedPreferences("Playlists Details", Context.MODE_PRIVATE);
+        if(sharedPreferences.contains("Created Playlists")){
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("Created Playlists", "");
+            //PlaylistInfo.allPlaylists = gson.fromJson(json, (Type) Playlist.class);
+            Type type = new TypeToken< ArrayList < Playlist >>() {}.getType();
+            PlaylistInfo.allPlaylists= new Gson().fromJson(json, type);
+        }
+        else {
+            PlaylistInfo.allPlaylists= new ArrayList<>();
+        }
+    }
+
     private void loginUser(){
         String password = editPassword.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
