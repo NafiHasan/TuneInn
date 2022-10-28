@@ -83,12 +83,11 @@ public class MusicActivity extends AppCompatActivity {
 
     void addSong()
     {
-        while(cursor.moveToNext())
-        {
-            song = new Song(cursor.getString(0),cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4));
+        while (cursor.moveToNext()) {
+            song = new Song(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
             file = new File(song.getData());
 
-            if(file.exists()) mySongs.add(song);
+            if (file.exists()) mySongs.add(song);
         }
 
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));

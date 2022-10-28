@@ -58,7 +58,9 @@ public class HomeActivity extends AppCompatActivity {
         playerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, MusicActivity.class));
+                Intent intent = new Intent(HomeActivity.this, MusicActivity.class);
+                intent.putExtra("playlistId","-1");
+                startActivity(intent);
             }
         });
 
