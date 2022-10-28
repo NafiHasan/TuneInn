@@ -74,6 +74,18 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
                 context.startActivity(intent);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SongPosition.selectedSongToAdd= holder.getAdapterPosition();
+                Intent intent= new Intent(context,PlaylistSelectionActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                return false;
+            }
+        });
+
     }
 
     @Override

@@ -45,7 +45,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //PlaylistInfo.currentPlaylistPosition= holder.getAdapterPosition();
+                PlaylistInfo.currentPlaylistPosition= holder.getAdapterPosition();
+                Intent intent = new Intent(context, MusicActivity.class);
+                //intent.putExtra("ABC", mySongs);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
                 //RecyclerView songListRecyclerView = findViewById(R.id.songs_recycler_view);
                 /*MusicPlayer.getInstance().reset();
                 SongPosition.currentSongPosition = position;

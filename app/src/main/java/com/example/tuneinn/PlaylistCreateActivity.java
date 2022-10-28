@@ -41,6 +41,14 @@ public class PlaylistCreateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(PlaylistCreateActivity.this,MusicActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

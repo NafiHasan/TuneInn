@@ -8,6 +8,7 @@ public class Playlist {
 
     public Playlist(String name) {
         this.name = name;
+        this.songs= new ArrayList<>();
     }
 
     public void addSong(Song song){

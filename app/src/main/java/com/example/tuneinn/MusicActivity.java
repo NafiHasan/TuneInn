@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class MusicActivity extends AppCompatActivity {
     Uri uri;
     FrameLayout frag_bottom_player;
     Button playlists;
+    TextView currentPlaylist;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -74,6 +76,7 @@ public class MusicActivity extends AppCompatActivity {
         mySongs = new ArrayList<>();
         uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         playlists= findViewById(R.id.playlistButton);
+        currentPlaylist= findViewById(R.id.textView);
     }
 
     boolean hasAccessToStorage()
@@ -102,8 +105,15 @@ public class MusicActivity extends AppCompatActivity {
             if (file.exists()) mySongs.add(song);
         }
 
+        SongPosition.allSongs= mySongs;
+        if(PlaylistInfo.currentPlaylistPosition!= -1){
+            mySongs= PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getSongs();
+            currentPlaylist.setText(PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getName());
+            PlaylistInfo.currentPlaylistPosition= -1;
+        }
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         songListRecyclerView.setAdapter(new MusicAdapter(mySongs, getApplicationContext()));
         cursor.close();
+       // Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
     }
 }
