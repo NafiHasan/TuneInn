@@ -14,7 +14,7 @@
         android:layout_height="49dp"
 
         android:text="Email : "
-        android:textAlignment="viewEnd"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -64,18 +64,18 @@
         app:layout_constraintTop_toBottomOf="@+id/saveProfileButton"
         app:layout_constraintVertical_bias="0.196" />
 
-    <ImageView
-        android:id="@+id/profileImageView"
-        android:layout_width="196dp"
-        android:layout_height="168dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="157dp"
+        android:layout_height="146dp"
+        android:background="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/uploadImageButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
         android:id="@+id/textView"
@@ -83,7 +83,7 @@
         android:layout_height="43dp"
 
         android:text="Name : "
-        android:textAlignment="viewEnd"
+        android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -102,7 +102,14 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+
         android:text="Name"
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.304"
@@ -117,7 +124,13 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
+
         android:text="email"
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editUserName"
         app:layout_constraintHorizontal_bias="0.0"
@@ -129,7 +142,13 @@
         android:id="@+id/passwordTextView"
         android:layout_width="0dp"
         android:layout_height="42dp"
+
         android:text="Password : "
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/emailTextView"
         app:layout_constraintHorizontal_bias="0.101"
@@ -144,8 +163,13 @@
         android:ems="10"
         android:inputType="textPassword"
         android:minHeight="48dp"
+
         android:text="password"
-        android:textColor="#D8CCCC"
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editEmail"
         app:layout_constraintHorizontal_bias="0.0"
@@ -156,8 +180,14 @@
     <TextView
         android:id="@+id/genreTextView"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
+
         android:text="Favourite Genre : "
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passwordTextView"
         app:layout_constraintHorizontal_bias="0.048"
@@ -172,7 +202,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+
         android:text="Name"
+        android:textAlignment="center"
+        android:textColor="#F6F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editPassword"
         app:layout_constraintHorizontal_bias="0.0"
@@ -184,13 +220,20 @@
         android:id="@+id/uploadImageButton"
         android:layout_width="179dp"
         android:layout_height="74dp"
+
+        android:backgroundTint="@color/light_green"
+
         android:text="Upload Profile Picture"
-        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
-        app:layout_constraintStart_toEndOf="@+id/profileImageView"
+        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintVertical_bias="0.12" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

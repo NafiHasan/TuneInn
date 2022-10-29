@@ -117,17 +117,22 @@
         app:layout_constraintTop_toBottomOf="@+id/saveProfileButton"
         app:layout_constraintVertical_bias="0.196" />
 
-    <ImageView
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"
         android:layout_width="163dp"
         android:layout_height="145dp"
 
+        android:background="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.063"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+
 
     <TextView
         android:id="@+id/genreTextView"

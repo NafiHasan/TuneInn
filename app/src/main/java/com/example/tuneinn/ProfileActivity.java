@@ -11,18 +11,21 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    TextView genreText;
-    private ImageView profileImageView;
+    private TextView genreText, userNameText, emailText;
+    private CircleImageView profileImageView;
+    private Button goBackButton, editProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Button goBackButton = (Button) findViewById(R.id.goBackButton);
-        Button editProfileButton = (Button) findViewById(R.id.saveProfileButton);
+        goBackButton = (Button) findViewById(R.id.goBackButton);
+        editProfileButton = (Button) findViewById(R.id.saveProfileButton);
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,10 +42,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        TextView userNameText = (TextView) findViewById(R.id.userNameText);
-        TextView emailText = (TextView) findViewById(R.id.emailText);
-        profileImageView = findViewById(R.id.profileImageView);
-        genreText = findViewById(R.id.genreText);
+        userNameText = (TextView) findViewById(R.id.userNameText);
+        emailText = (TextView) findViewById(R.id.emailText);
+        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
+        genreText = (TextView) findViewById(R.id.genreText);
 
 
 
@@ -51,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
             emailText.setText(HomeActivity.userEmail);
             genreText.setText((HomeActivity.favGenre));
             Picasso.get().load(HomeActivity.imageURL).into(profileImageView);
+//            System.out.println("now " + HomeActivity.imageURL);
         }
         else {
 //            startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));

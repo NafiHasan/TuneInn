@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         Button logoutButton = (Button) findViewById(R.id.logoutButton);
         Button profileButton = (Button) findViewById(R.id.profileButton);
         Button playerButton = (Button) findViewById(R.id.playerButton);
+        Button partyButton = findViewById(R.id.partyButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,9 +65,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        partyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, FindFriendActivity.class));
+            }
+        });
+
+
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
+
+
+
+        // getting current user info
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,8 +91,8 @@ public class HomeActivity extends AppCompatActivity {
                     userEmail = userProfile.email;
                     userPassword = userProfile.password;
                     favGenre = userProfile.genre;
-                    imageURL = userProfile.URL;
-                    System.out.println("got " + imageURL);
+//                    imageURL = userProfile.URL;
+//                    System.out.println(imageURL);
                 }
             }
 
@@ -89,15 +103,14 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+
+    // updating profile
     static void updateProfile(String name, String email, String password, String genre, String url){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         String userID = user.getUid();
 
-//        boolean done = false;
-
         User userProfile = new User();
-        System.out.println("Hello" + url);
         userProfile.updateUser(name, email, password, genre, url);
 
         reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -32,9 +32,11 @@ import com.squareup.picasso.Picasso;
 import java.net.URI;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class editProfileActivity extends AppCompatActivity {
 
-    private ImageView profileImageView;
+    private CircleImageView profileImageView;
     private TextView editUserName, editEmail, editPassword, editGenre;
     private Button goBackButton, uploadImageButton, saveProfileButton;
     private FirebaseStorage storage;
@@ -100,12 +102,13 @@ public class editProfileActivity extends AppCompatActivity {
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
         saveProfileButton = (Button) findViewById(R.id.saveProfileButton);
 
-        profileImageView = findViewById(R.id.profileImageView);
+        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
         editUserName = findViewById(R.id.editUserName);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editGenre = findViewById(R.id.editGenre);
 
+//        downloadURL = HomeActivity.imageURL;
 //        mAuth = FirebaseAuth.getInstance();
 //        mUser = mAuth.getCurrentUser();
 //        mUserRef = FirebaseDatabase.getInstance().getReference().child("Image");
@@ -118,6 +121,7 @@ public class editProfileActivity extends AppCompatActivity {
             editPassword.setText(HomeActivity.userPassword);
             editGenre.setText(HomeActivity.favGenre);
             Picasso.get().load(HomeActivity.imageURL).into(profileImageView);
+            Picasso.get().setLoggingEnabled(true);
         }
 
         storage = FirebaseStorage.getInstance();
@@ -142,9 +146,9 @@ public class editProfileActivity extends AppCompatActivity {
         saveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                String url = HomeActivity.imageURL;
                 HomeActivity.updateProfile(editUserName.getText().toString(), editEmail.getText().toString(),
                         editPassword.getText().toString(), editGenre.getText().toString(), downloadURL);
-
 
                 if(HomeActivity.done == true){
                     Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_LONG).show();

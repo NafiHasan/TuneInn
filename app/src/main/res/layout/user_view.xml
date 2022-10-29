@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardView"
+        android:layout_width="410dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        app:layout_constraintVertical_bias="0.061">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="146dp"
+            android:layout_height="52dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/purple_200"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/userDP"
+            app:layout_constraintEnd_toStartOf="@+id/addFriendButton"
+            app:layout_constraintHorizontal_bias="0.944"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/userDP"
+            app:layout_constraintVertical_bias="0.242" />
+
+        <TextView
+            android:id="@+id/userGenre"
+            android:layout_width="98dp"
+            android:layout_height="41dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/purple_200"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/userName"
+            app:layout_constraintStart_toStartOf="@+id/userName"
+            app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+
+        <Button
+            android:id="@+id/addFriendButton"
+            android:layout_width="101dp"
+            android:layout_height="55dp"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.902"
+            app:layout_constraintStart_toEndOf="@+id/userDP"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.492" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userDP"
+            android:layout_width="122dp"
+            android:layout_height="123dp"
+            android:background="@drawable/logo"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.051"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.218">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
