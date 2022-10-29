@@ -16,13 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -41,10 +44,13 @@ public class editProfileActivity extends AppCompatActivity {
     private Button goBackButton, uploadImageButton, saveProfileButton;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-//    DatabaseReference mUserRef;
-//    FirebaseAuth mAuth;
-//    FirebaseUser mUser;
+    DatabaseReference mUserRef;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+    FirebaseFirestore mStore;
+
     private String filepath, downloadURL, Uid;
+    private String name, email, genre, url;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
@@ -53,7 +59,8 @@ public class editProfileActivity extends AppCompatActivity {
                 public void onActivityResult(Uri uri) {
                     if(uri != null){
                         profileImageView.setImageURI(uri);
-                        HomeActivity.imageURL = uri.toString();
+//                        HomeActivity.imageURL = uri.toString();
+                        url = uri.toString();
                         downloadURL = uri.toString();
                         uploadImagetoDB(uri);
                     }
@@ -109,19 +116,30 @@ public class editProfileActivity extends AppCompatActivity {
         editGenre = findViewById(R.id.editGenre);
 
 //        downloadURL = HomeActivity.imageURL;
-//        mAuth = FirebaseAuth.getInstance();
-//        mUser = mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        mStore = FirebaseFirestore.getInstance();
 //        mUserRef = FirebaseDatabase.getInstance().getReference().child("Image");
 //        Uid = mUser.getUid();
 
 
-        if(HomeActivity.userName != null){
-            editUserName.setText(HomeActivity.userName);
-            editEmail.setText(HomeActivity.userEmail);
-            editPassword.setText(HomeActivity.userPassword);
-            editGenre.setText(HomeActivity.favGenre);
-            Picasso.get().load(HomeActivity.imageURL).into(profileImageView);
+        //getting info from previous intent
+        Intent data = getIntent();
+        name = data.getStringExtra("name");
+        email = data.getStringExtra("email");
+        genre = data.getStringExtra("genre");
+        url = data.getStringExtra("url");
+
+        if(name != null){
+            editUserName.setText(name);
+            editEmail.setText(email);
+//            editPassword.setText(HomeActivity.userPassword);
+            editGenre.setText(genre);
+            if(url != null)Picasso.get().load(url).into(profileImageView);
             Picasso.get().setLoggingEnabled(true);
+        }
+        else {
+            System.out.println("failure error");
         }
 
         storage = FirebaseStorage.getInstance();
@@ -131,7 +149,12 @@ public class editProfileActivity extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(editProfileActivity.this, ProfileActivity.class));
+                Intent intent = new Intent(editProfileActivity.this, ProfileActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("email", email);
+                intent.putExtra("genre", genre);
+                intent.putExtra("url", url);
+                startActivity(intent);
                 finish();
             }
         });
@@ -146,15 +169,39 @@ public class editProfileActivity extends AppCompatActivity {
         saveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String url = HomeActivity.imageURL;
-                HomeActivity.updateProfile(editUserName.getText().toString(), editEmail.getText().toString(),
-                        editPassword.getText().toString(), editGenre.getText().toString(), downloadURL);
+                name = editUserName.getText().toString();
+                email = editEmail.getText().toString();
+                genre = editGenre.getText().toString();
 
-                if(HomeActivity.done == true){
-                    Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(editProfileActivity.this, ProfileActivity.class));
-//                    finish();
-                }
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                String userID = user.getUid();
+
+                User userProfile = new User();
+                userProfile.updateUser(name, email, "", genre, url);
+
+                reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            name = userProfile.name;
+                            email = userProfile.email;
+//                            userPassword = userProfile.password;
+                            genre = userProfile.genre;
+                            url = userProfile.URL;
+
+                            Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                Intent intent = new Intent(editProfileActivity.this, ProfileActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("email", email);
+                intent.putExtra("genre", genre);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                finish();
             }
         });
     }

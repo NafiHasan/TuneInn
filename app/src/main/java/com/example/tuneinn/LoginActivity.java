@@ -50,9 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadSharedPreferenceData();
-                //loginUser();
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+//                loadSharedPreferenceData();
+                loginUser();
+//                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
         });
 

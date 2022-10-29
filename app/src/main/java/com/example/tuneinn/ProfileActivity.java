@@ -18,6 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView genreText, userNameText, emailText;
     private CircleImageView profileImageView;
     private Button goBackButton, editProfileButton;
+    private String name, email, genre, url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,13 @@ public class ProfileActivity extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, editProfileActivity.class));
-                finish();
+                Intent intent = new Intent(ProfileActivity.this, editProfileActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("email", email);
+                intent.putExtra("genre", genre);
+                intent.putExtra("url", url);
+                startActivity(intent);
+//                finish();
             }
         });
 
@@ -47,18 +53,25 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
         genreText = (TextView) findViewById(R.id.genreText);
 
+        // getting data from HomeActivity intent
+
+        Intent data = getIntent();
+        name = data.getStringExtra("name");
+        email = data.getStringExtra("email");
+        genre = data.getStringExtra("genre");
+        url = data.getStringExtra("url");
 
 
-        if(HomeActivity.userName != null){
-            userNameText.setText(HomeActivity.userName);
-            emailText.setText(HomeActivity.userEmail);
-            genreText.setText((HomeActivity.favGenre));
-            Picasso.get().load(HomeActivity.imageURL).into(profileImageView);
-//            System.out.println("now " + HomeActivity.imageURL);
+
+        if(name != null){
+            userNameText.setText(name);
+            emailText.setText(email);
+            genreText.setText((genre));
+            Picasso.get().load(url).into(profileImageView);
         }
         else {
 //            startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
-            Toast.makeText(ProfileActivity.this, "Network Problem! Reload again! ", Toast.LENGTH_LONG).show();
+//            Toast.makeText(ProfileActivity.this, "Network Problem! Reload again! ", Toast.LENGTH_LONG).show();
         }
     }
 }

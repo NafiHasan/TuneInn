@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
-    public static String userName, userEmail, userPassword, favGenre, imageURL;
+    private String userName, userEmail, userPassword, favGenre, imageURL;
     public static boolean done = false;
 
     @Override
@@ -51,7 +51,14 @@ public class HomeActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                System.out.println("userName = " + userName);
+                intent.putExtra("name", userName);
+                intent.putExtra("email", userEmail);
+//                intent.putExtra("userPassword", userPassword);
+                intent.putExtra("genre", favGenre);
+                intent.putExtra("url", imageURL);
+                startActivity(intent);
 //                finish();
             }
         });
@@ -91,44 +98,50 @@ public class HomeActivity extends AppCompatActivity {
                     userEmail = userProfile.email;
                     userPassword = userProfile.password;
                     favGenre = userProfile.genre;
-//                    imageURL = userProfile.URL;
+                    Toast.makeText(getApplicationContext(), "Success data", Toast.LENGTH_SHORT).show();
+                    System.out.println("Nafi Success");
+                    imageURL = userProfile.URL;
 //                    System.out.println(imageURL);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Error in data", Toast.LENGTH_SHORT).show();
+                    System.out.println("Nafi Error");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(HomeActivity.this, "Error in database!", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "Error in database!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     // updating profile
-    static void updateProfile(String name, String email, String password, String genre, String url){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        String userID = user.getUid();
-
-        User userProfile = new User();
-        userProfile.updateUser(name, email, password, genre, url);
-
-        reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    done = true;
-                    userName = userProfile.name;
-                    userEmail = userProfile.email;
-                    userPassword = userProfile.password;
-                    favGenre = userProfile.genre;
-//                    imageURL = userProfile.URL;
-                }
-                else {
-                    done = false;
-//                    System.out.println("Wrong");
-                }
-            }
-        });
-    }
+//    static void updateProfile(String name, String email, String password, String genre, String url){
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+//        String userID = user.getUid();
+//
+//        User userProfile = new User();
+//        userProfile.updateUser(name, email, password, genre, url);
+//
+//        reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    done = true;
+//                    userName = userProfile.name;
+//                    userEmail = userProfile.email;
+//                    userPassword = userProfile.password;
+//                    favGenre = userProfile.genre;
+////                    imageURL = userProfile.URL;
+//                }
+//                else {
+//                    done = false;
+////                    System.out.println("Wrong");
+//                }
+//            }
+//        });
+//    }
 }

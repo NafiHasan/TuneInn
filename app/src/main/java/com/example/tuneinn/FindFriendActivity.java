@@ -56,7 +56,7 @@ public class FindFriendActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull FindFriendViewHolder holder, int position, @NonNull User model) {
                 User all = new User();
-                if(HomeActivity.imageURL != null)Picasso.get().load(model.URL).into(holder.userDP);
+                if(model.URL != null)Picasso.get().load(model.URL).into(holder.userDP);
                 holder.userName.setText(model.name);
                 holder.userGenre.setText(model.genre);
             }
