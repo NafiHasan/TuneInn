@@ -7,16 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView genreText, userNameText, emailText;
-    private CircleImageView profileImageView;
+    private ImageView profileImageView;
     private Button goBackButton, editProfileButton;
     private String name, email, genre, url;
 
@@ -26,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         goBackButton = (Button) findViewById(R.id.goBackButton);
-        editProfileButton = (Button) findViewById(R.id.saveProfileButton);
+        editProfileButton = (Button) findViewById(R.id.addFriendButton);
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        userNameText = (TextView) findViewById(R.id.userNameText);
-        emailText = (TextView) findViewById(R.id.emailText);
-        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
-        genreText = (TextView) findViewById(R.id.genreText);
+        userNameText = (TextView) findViewById(R.id.userName);
+        emailText = (TextView) findViewById(R.id.userEmail);
+        profileImageView = (ImageView) findViewById(R.id.profileImage);
+        genreText = (TextView) findViewById(R.id.userGenre);
 
         // getting data from HomeActivity intent
 
@@ -67,7 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
             userNameText.setText(name);
             emailText.setText(email);
             genreText.setText((genre));
-            Picasso.get().load(url).into(profileImageView);
+            System.out.println("url " + url);
+            if(url != null && !url.equals("")){
+//                Picasso.get().load(url).into(profileImageView);
+                Picasso.get().load(url).into(profileImageView);
+                System.out.println("Loading " + url);
+            }
         }
         else {
 //            startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));

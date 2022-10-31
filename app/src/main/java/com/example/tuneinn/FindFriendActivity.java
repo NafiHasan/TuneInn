@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -28,6 +30,8 @@ public class FindFriendActivity extends AppCompatActivity {
 
     FirebaseRecyclerOptions<User> options;
     FirebaseRecyclerAdapter<User, FindFriendViewHolder> adapter;
+
+
 
     Toolbar toolbar;
 
@@ -45,6 +49,8 @@ public class FindFriendActivity extends AppCompatActivity {
         // set title of the page
         setTitle("Find Friends");
         getSupportActionBar().setIcon(R.drawable.ic_baseline_search_24);
+
+
 
         // database variables
         mUserRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -72,10 +78,20 @@ public class FindFriendActivity extends AppCompatActivity {
                     holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
                 else {
-                    if(model.URL != null)Picasso.get().load(model.URL).into(holder.userDP);
+                    if(model.URL != null && !model.URL.equals(""))Picasso.get().load(model.URL).into(holder.userDP);
                     holder.userName.setText(model.name);
                     holder.userGenre.setText(model.genre);
                 }
+
+                // clicking user's profile
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(FindFriendActivity.this, FriendViewActivity.class);
+                        intent.putExtra("userID", getRef(position).getKey().toString());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @NonNull

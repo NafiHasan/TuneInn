@@ -8,11 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class FindFriendViewHolder extends RecyclerView.ViewHolder {
 
     ImageView userDP;
     TextView userName, userGenre;
-    Button findFriendButton;
+
 
     public FindFriendViewHolder(@NonNull View itemView) {
         super(itemView);

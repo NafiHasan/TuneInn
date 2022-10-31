@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,7 +47,7 @@ public class editProfileActivity extends AppCompatActivity {
     FirebaseUser mUser;
     FirebaseFirestore mStore;
 
-    private String filepath, downloadURL, Uid;
+//    private String filepath, downloadURL, Uid;
     private String name, email, genre, url;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -60,8 +58,8 @@ public class editProfileActivity extends AppCompatActivity {
                     if(uri != null){
                         profileImageView.setImageURI(uri);
 //                        HomeActivity.imageURL = uri.toString();
-                        url = uri.toString();
-                        downloadURL = uri.toString();
+//                        url = uri.toString();
+//                        downloadURL = uri.toString();
                         uploadImagetoDB(uri);
                     }
                 }
@@ -81,6 +79,19 @@ public class editProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
+
+                Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        url = uri.toString();
+                    }
+                });
+                System.out.println("OHNO : "+ url);
+//                }
+//                else{
+//                    System.out.println("OHNO");
+//                }
 //                String id = mUserRef.push().getKey();
 //                mUserRef.child(id).setValue(uri.toString());
                 Snackbar.make(findViewById(android.R.id.content), "Image Uploaded.", Snackbar.LENGTH_LONG).show();
@@ -107,9 +118,9 @@ public class editProfileActivity extends AppCompatActivity {
 
         goBackButton = (Button) findViewById(R.id.goBackButton);
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
-        saveProfileButton = (Button) findViewById(R.id.saveProfileButton);
+        saveProfileButton = (Button) findViewById(R.id.addFriendButton);
 
-        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
+        profileImageView = (CircleImageView) findViewById(R.id.profileImage);
         editUserName = findViewById(R.id.editUserName);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
@@ -135,8 +146,8 @@ public class editProfileActivity extends AppCompatActivity {
             editEmail.setText(email);
 //            editPassword.setText(HomeActivity.userPassword);
             editGenre.setText(genre);
-            if(url != null)Picasso.get().load(url).into(profileImageView);
-            Picasso.get().setLoggingEnabled(true);
+            if(url != null && !url.equals(""))Picasso.get().load(url).into(profileImageView);
+//            Picasso.get().setLoggingEnabled(true);
         }
         else {
             System.out.println("failure error");

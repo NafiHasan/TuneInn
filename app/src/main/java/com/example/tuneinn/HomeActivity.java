@@ -51,14 +51,15 @@ public class HomeActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                System.out.println("userName = " + userName);
-                intent.putExtra("name", userName);
-                intent.putExtra("email", userEmail);
+                Intent intent1 = new Intent(HomeActivity.this, ProfileActivity.class);
+//                System.out.println("userName = " + userName);
+                intent1.putExtra("name", userName);
+                intent1.putExtra("email", userEmail);
 //                intent.putExtra("userPassword", userPassword);
-                intent.putExtra("genre", favGenre);
-                intent.putExtra("url", imageURL);
-                startActivity(intent);
+                intent1.putExtra("genre", favGenre);
+                System.out.println("Printing " + imageURL);
+                intent1.putExtra("url", imageURL);
+                startActivity(intent1);
 //                finish();
             }
         });
@@ -101,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Success data", Toast.LENGTH_SHORT).show();
                     System.out.println("Nafi Success");
                     imageURL = userProfile.URL;
+                    System.out.println("Gettingurl " + imageURL);
 //                    System.out.println(imageURL);
                 }
                 else {

@@ -123,15 +123,18 @@ public class RegisterActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                    Toast.makeText(RegisterActivity.this,
-                                                            "Successfully Registered.", Toast.LENGTH_SHORT).show();
-                                                    progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(RegisterActivity.this,
+                                                        "Successfully Registered.", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
 
-//                                                FirebaseUser user = mAuth.getCurrentUser();
-                                                    startActivity(new Intent(RegisterActivity.this,
-                                                            HomeActivity.class));
-
-                                                    finish();
+//                                              FirebaseUser user = mAuth.getCurrentUser();
+                                                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                                                intent.putExtra("name", name);
+                                                intent.putExtra("email", email);
+                                                intent.putExtra("genre", "");
+                                                intent.putExtra("url", "");
+                                                startActivity(intent);
+                                                finish();
                                             }
                                             else {
                                                 Toast.makeText(RegisterActivity.this,
