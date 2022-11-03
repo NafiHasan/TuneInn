@@ -51,7 +51,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
         Song song = mySongs.get(position);
         holder.musicFileName.setText(song.getTitle());
 
-        byte[] albumArts = getAlbumArt(song.getData());
+        /*byte[] albumArts = getAlbumArt(song.getData());
 
         if(albumArts != null)
         {
@@ -61,7 +61,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
         else
         {
             Glide.with(context).load(R.drawable.ic_baseline_music_note_24).into(holder.albumArt);
-        }
+        }*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,12 +93,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
         return mySongs.size();
     }
 
-    private byte[] getAlbumArt(String uri)
+    /*private byte[] getAlbumArt(String uri)
     {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri);
         byte[] albumArt = retriever.getEmbeddedPicture();
         retriever.release();
         return albumArt;
-    }
+    }*/
 }
