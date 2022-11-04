@@ -25,16 +25,19 @@ public class HomeActivity extends AppCompatActivity {
     private String userName, userEmail, userPassword, favGenre, imageURL;
     public static boolean done = false;
 
+    private Button logoutButton, profileButton, playerButton, partyButton, friendsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         //buttons
-        Button logoutButton = (Button) findViewById(R.id.logoutButton);
-        Button profileButton = (Button) findViewById(R.id.profileButton);
-        Button playerButton = (Button) findViewById(R.id.playerButton);
-        Button partyButton = findViewById(R.id.partyButton);
+        logoutButton =  findViewById(R.id.logoutButton);
+        profileButton = findViewById(R.id.profileButton);
+        playerButton = findViewById(R.id.playerButton);
+        partyButton = findViewById(R.id.partyButton);
+        friendsButton = findViewById(R.id.friendsButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +77,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, PartyConnectUserActivity.class));
+            }
+        });
+
+        friendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, FindFriendActivity.class));
             }
         });
 

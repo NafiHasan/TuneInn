@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        goBackButton = (Button) findViewById(R.id.goBackButton);
+        goBackButton = (Button) findViewById(R.id.declineButton);
         editProfileButton = (Button) findViewById(R.id.addFriendButton);
 
         goBackButton.setOnClickListener(new View.OnClickListener() {

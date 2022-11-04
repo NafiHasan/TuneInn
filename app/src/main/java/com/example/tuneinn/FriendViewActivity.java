@@ -35,7 +35,7 @@ public class FriendViewActivity extends AppCompatActivity {
 
     private CircleImageView profileImage;
     private TextView userName, userEmail, userGenre;
-    private Button addFriendButton, cancelFriendButton;
+    private Button addFriendButton, declineButton;
 
     private String CurrentState = "notFriend";
 
@@ -54,11 +54,10 @@ public class FriendViewActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        LoadCurrentUser();
-
         //button
         addFriendButton = findViewById(R.id.addFriendButton);
-        cancelFriendButton = findViewById(R.id.cancelFriendButton);
+//        cancelFriendButton = findViewById(R.id.cancelFriendButton);
+        declineButton = findViewById(R.id.declineButton);
 
         // views
         profileImage = findViewById(R.id.profileImage);
@@ -73,25 +72,150 @@ public class FriendViewActivity extends AppCompatActivity {
                 FriendAction(userID);
             }
         });
+
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Unfriend(userID);
+            }
+        });
+
+        LoadCurrentUser();
+        checkUserExistence(userID);
+
+    }
+
+    private void Unfriend(String userID) {
+        //if both are friend
+        if(CurrentState.equals("Friend")){
+            friendsRef.child(mUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        friendsRef.child(userID).child(mUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    CurrentState = "notFriend";
+                                    addFriendButton.setText("Send Request");
+                                    declineButton.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if(CurrentState.equals("receivedPending")){
+            HashMap hashMap = new HashMap();
+            hashMap.put("Status", "decline");
+            requestRef.child(userID).child(mUser.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Request Declined", Toast.LENGTH_SHORT).show();
+                        CurrentState = "Declined";
+                        addFriendButton.setText("Send Request");
+                        declineButton.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
+
+    private void checkUserExistence(String userID) {
+        //check if already friend or not
+        friendsRef.child(mUser.getUid()).child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    CurrentState = "Friend";
+                    addFriendButton.setText("Unfriend");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        friendsRef.child(userID).child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    CurrentState = "Friend";
+                    addFriendButton.setText("Unfriend");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // check if request is received
+        requestRef.child(userID).child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.child("Status").getValue().toString().equals("pending")){
+                        CurrentState = "receivedPending";
+                        addFriendButton.setText("Accept Request");
+                        declineButton.setVisibility(View.VISIBLE);
+                        // make cancel button visible
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // check if request is sent or not
+        requestRef.child(mUser.getUid()).child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.child("Status").getValue().toString().equals("pending")){
+                        CurrentState = "sentPending";
+                        addFriendButton.setText("Cancel Request");
+                    }else if(snapshot.child("Status").getValue().toString().equals("declined")){
+                        CurrentState = "sentDeclined";
+                        addFriendButton.setText("Send Request");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void FriendAction(String userID) {
+        // if the user is not friend then request can be sent
         if(CurrentState.equals("notFriend")){
             HashMap hashmap = new HashMap();
-            hashmap.put("curStatus", "pending");
+            hashmap.put("Status", "pending");
             requestRef.child(mUser.getUid()).child(userID).updateChildren(hashmap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
                         Toast.makeText(getApplicationContext(), "Request Sent!", Toast.LENGTH_SHORT).show();
-                        addFriendButton.setText("Request Sent");
-                        CurrentState = "pending";
+                        addFriendButton.setText("Cancel Request");
+                        CurrentState = "sentPending";
                     }else {
                         Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }else if(CurrentState.equals("pending")){
+        }
+        // if request is already sent then , user can cancel request
+        else if(CurrentState.equals("sentPending")){
             requestRef.child(mUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -104,8 +228,10 @@ public class FriendViewActivity extends AppCompatActivity {
                     }
                 }
             });
-        }else if(CurrentState.equals("gotRequest")){
-            requestRef.child(mUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        }
+        // if request is received then user can unfriend
+        else if(CurrentState.equals("receivedPending")){
+            requestRef.child(userID).child(mUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
@@ -120,9 +246,10 @@ public class FriendViewActivity extends AppCompatActivity {
                                     friendsRef.child(userID).child(mUser.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
-                                            Toast.makeText(getApplicationContext(), "Added", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Added User", Toast.LENGTH_SHORT).show();
                                             CurrentState = "Friend";
                                             addFriendButton.setText("Unfriend");
+                                            declineButton.setVisibility(View.GONE);
                                         }
                                     });
                                 }
@@ -132,7 +259,8 @@ public class FriendViewActivity extends AppCompatActivity {
                 }
             });
         }else {
-
+            //if friend already
+            Unfriend(userID);
         }
     }
 
@@ -143,8 +271,8 @@ public class FriendViewActivity extends AppCompatActivity {
                 if(snapshot.exists()){
                     name = snapshot.child("name").getValue().toString();
                     email = snapshot.child("email").getValue().toString();
-                    genre = snapshot.child("genre").getValue().toString();
-                    url = snapshot.child("URL").getValue().toString();
+                    if(snapshot.child("genre").exists())genre = snapshot.child("genre").getValue().toString();
+                    if(snapshot.child("URL").exists())url = snapshot.child("URL").getValue().toString();
 
                     // load
                     Picasso.get().load(url).into(profileImage);

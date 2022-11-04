@@ -116,7 +116,7 @@ public class editProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        goBackButton = (Button) findViewById(R.id.goBackButton);
+        goBackButton = (Button) findViewById(R.id.declineButton);
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
         saveProfileButton = (Button) findViewById(R.id.addFriendButton);
 

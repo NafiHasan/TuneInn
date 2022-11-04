@@ -33,16 +33,17 @@
         android:layout_marginTop="50dp"
 
 
+        android:backgroundTint="@color/light_green"
         android:text="Player"
         android:textColor="@color/white"
-        android:backgroundTint="@color/light_green"
-        android:textStyle="bold"
         android:textSize="18sp"
 
 
-        app:layout_constraintEnd_toEndOf="@+id/partyButton"
-        app:layout_constraintStart_toStartOf="@+id/partyButton"
-        app:layout_constraintTop_toBottomOf="@+id/partyButton" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/friendsButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/friendsButton"
+        app:layout_constraintTop_toBottomOf="@+id/friendsButton" />
 
     <Button
         android:id="@+id/profileButton"
@@ -51,14 +52,15 @@
         android:layout_marginTop="50dp"
 
 
+        android:backgroundTint="@color/light_green"
         android:text="Profile"
         android:textColor="@color/white"
-        android:backgroundTint="@color/light_green"
-        android:textStyle="bold"
         android:textSize="18sp"
+        android:textStyle="bold"
 
 
         app:layout_constraintEnd_toEndOf="@+id/playerButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/playerButton"
         app:layout_constraintTop_toBottomOf="@+id/playerButton" />
 
@@ -69,14 +71,34 @@
         android:layout_marginTop="50dp"
 
 
+        android:backgroundTint="@color/light_green"
         android:text="Logout"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintEnd_toEndOf="@+id/profileButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/profileButton"
+        app:layout_constraintTop_toBottomOf="@+id/profileButton" />
+
+    <Button
+        android:id="@+id/friendsButton"
+        android:layout_width="124dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="50dp"
+
+        android:text="Friends"
         android:textColor="@color/white"
         android:backgroundTint="@color/light_green"
         android:textStyle="bold"
         android:textSize="18sp"
 
-
-        app:layout_constraintEnd_toEndOf="@+id/profileButton"
-        app:layout_constraintStart_toStartOf="@+id/profileButton"
-        app:layout_constraintTop_toBottomOf="@+id/profileButton" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/partyButton"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="@+id/partyButton"
+        app:layout_constraintTop_toBottomOf="@+id/partyButton"
+        app:layout_constraintVertical_bias="0.002" />
 </androidx.constraintlayout.widget.ConstraintLayout>
