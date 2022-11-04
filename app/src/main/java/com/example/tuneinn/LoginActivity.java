@@ -50,9 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadSharedPreferenceData();
                 loginUser();
-                //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
         });
 
@@ -66,20 +65,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private void loadSharedPreferenceData() {
-        SharedPreferences sharedPreferences= getSharedPreferences("Playlists Details", Context.MODE_PRIVATE);
-        if(sharedPreferences.contains("Created Playlists")){
-            Gson gson = new Gson();
-            String json = sharedPreferences.getString("Created Playlists", "");
-            //PlaylistInfo.allPlaylists = gson.fromJson(json, (Type) Playlist.class);
-            Type type = new TypeToken< ArrayList < Playlist >>() {}.getType();
-            PlaylistInfo.allPlaylists= new Gson().fromJson(json, type);
-        }
-        else {
-            PlaylistInfo.allPlaylists= new ArrayList<>();
-        }
     }
 
     private void loginUser(){

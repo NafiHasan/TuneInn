@@ -14,13 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
 {
     ArrayList<Song> mySongs;
     Context context;
+    Boolean isHost;
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -37,6 +41,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
     public MusicAdapter(ArrayList<Song> mySongs, Context context) {
         this.mySongs = mySongs;
         this.context = context;
+        this.isHost= true;
+    }
+
+    public MusicAdapter(ArrayList<Song> mySongs,Context context,Boolean isHost) {
+        this.mySongs = mySongs;
+        this.context= context;
+        this.isHost= isHost;
     }
 
     @NonNull
@@ -62,30 +73,53 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
         {
             Glide.with(context).load(R.drawable.ic_baseline_music_note_24).into(holder.albumArt);
         }*/
+        if(isHost) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MusicPlayer.getInstance().reset();
+                    SongPosition.currentSongPosition = holder.getAdapterPosition();
+                    Intent intent = new Intent(context, MusicPlayerActivity.class);
+                    intent.putExtra("ABC", mySongs);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayer.getInstance().reset();
-                SongPosition.currentSongPosition = position;
-                Intent intent = new Intent(context, MusicPlayerActivity.class);
-                intent.putExtra("ABC", mySongs);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                SongPosition.selectedSongToAdd= holder.getAdapterPosition();
-                Intent intent= new Intent(context,PlaylistSelectionActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                return false;
-            }
-        });
-
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    SongPosition.selectedSongToAdd = holder.getAdapterPosition();
+                    Intent intent = new Intent(context, PlaylistSelectionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    return false;
+                }
+            });
+        }
+        else {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SongPosition.currentSongPosition = holder.getAdapterPosition();
+                    String json= String.valueOf(SongPosition.currentSongPosition);
+                    json += "3";
+                    ExecutorService executor= Executors.newSingleThreadExecutor();
+                    String finalJson = json;
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(PartyInfo.isHost){
+                                PartyInfo.partyLan.serverClass.write(finalJson.getBytes());
+                            }
+                            else if(!PartyInfo.isHost){
+                                PartyInfo.partyLan.clientClass.write(finalJson.getBytes());
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override

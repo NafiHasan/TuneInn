@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         partyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, PartyConnectUserActivity.class));
+                startActivity(new Intent(HomeActivity.this, PartyActivity.class));
             }
         });
 
@@ -92,8 +92,6 @@ public class HomeActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
-
-
 
         // getting current user info
 
