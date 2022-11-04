@@ -21,7 +21,7 @@
             tools:context=".FindFriendActivity">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/findFriendRecycler"
+                android:id="@+id/friendsRecycler"
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"

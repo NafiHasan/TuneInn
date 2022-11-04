@@ -32,6 +32,7 @@ public class FriendViewActivity extends AppCompatActivity {
     private FirebaseUser mUser;
 
     private String name, genre, email, url;
+    private String myName, myGenre, myEmail, myUrl;
 
     private CircleImageView profileImage;
     private TextView userName, userEmail, userGenre;
@@ -48,7 +49,7 @@ public class FriendViewActivity extends AppCompatActivity {
         String userID = getIntent().getStringExtra("userID");
 
         //firebase info
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         requestRef = FirebaseDatabase.getInstance().getReference().child("Requests");
         friendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
         mAuth = FirebaseAuth.getInstance();
@@ -80,10 +81,13 @@ public class FriendViewActivity extends AppCompatActivity {
             }
         });
 
-        LoadCurrentUser();
+        LoadCurrentUser(userID);
+        LoadMyProfile();
         checkUserExistence(userID);
 
     }
+
+
 
     private void Unfriend(String userID) {
         //if both are friend
@@ -158,7 +162,7 @@ public class FriendViewActivity extends AppCompatActivity {
         requestRef.child(userID).child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if(snapshot.exists() && snapshot.child("Status") != null){
                     if(snapshot.child("Status").getValue().toString().equals("pending")){
                         CurrentState = "receivedPending";
                         addFriendButton.setText("Accept Request");
@@ -177,7 +181,7 @@ public class FriendViewActivity extends AppCompatActivity {
         requestRef.child(mUser.getUid()).child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if(snapshot.exists() && snapshot.child("Status") != null){
                     if(snapshot.child("Status").getValue().toString().equals("pending")){
                         CurrentState = "sentPending";
                         addFriendButton.setText("Cancel Request");
@@ -239,11 +243,21 @@ public class FriendViewActivity extends AppCompatActivity {
                         hashMap.put("Status", "Friend");
                         hashMap.put("name", name);
                         hashMap.put("url", url);
+                        hashMap.put("genre", genre);
+                        hashMap.put("email", email);
+
+                        HashMap myHashMap = new HashMap();
+                        myHashMap.put("Status", "Friend");
+                        myHashMap.put("name", myName);
+                        myHashMap.put("url", myUrl);
+                        myHashMap.put("genre", myGenre);
+                        myHashMap.put("email", myEmail);
+
                         friendsRef.child(mUser.getUid()).child(userID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
                                 if(task.isSuccessful()){
-                                    friendsRef.child(userID).child(mUser.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                    friendsRef.child(userID).child(mUser.getUid()).updateChildren(myHashMap).addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
                                             Toast.makeText(getApplicationContext(), "Added User", Toast.LENGTH_SHORT).show();
@@ -264,8 +278,8 @@ public class FriendViewActivity extends AppCompatActivity {
         }
     }
 
-    private void LoadCurrentUser() {
-        mUserRef.addValueEventListener(new ValueEventListener() {
+    private void LoadCurrentUser(String userID) {
+        mUserRef.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -275,12 +289,39 @@ public class FriendViewActivity extends AppCompatActivity {
                     if(snapshot.child("URL").exists())url = snapshot.child("URL").getValue().toString();
 
                     // load
-                    Picasso.get().load(url).into(profileImage);
+                    if(url != null && !url.equals(""))Picasso.get().load(url).into(profileImage);
                     userName.setText(name);
                     userEmail.setText(email);
                     userGenre.setText(genre);
                 }else{
                     Toast.makeText(getApplicationContext(), "Data not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void LoadMyProfile() {
+        mUserRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.child("name") != null)myName = snapshot.child("name").getValue().toString();
+                    if(snapshot.child("email") != null)myEmail = snapshot.child("email").getValue().toString();
+                    if(snapshot.child("genre").exists())myGenre = snapshot.child("genre").getValue().toString();
+                    if(snapshot.child("URL").exists())myUrl = snapshot.child("URL").getValue().toString();
+//
+//                    // load
+//                    if(myUrl != null)Picasso.get().load(myUrl).into(profileImage);
+//                    if(myName != null)userName.setText(name);
+//                    if(myEmail != null)userEmail.setText(email);
+//                    if(myGenre != null)userGenre.setText(genre);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Data not found in Load my profile", Toast.LENGTH_SHORT).show();
                 }
             }
 

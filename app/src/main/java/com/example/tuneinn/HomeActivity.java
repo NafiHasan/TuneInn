@@ -35,8 +35,8 @@ public class HomeActivity extends AppCompatActivity {
         //buttons
         logoutButton =  findViewById(R.id.logoutButton);
         profileButton = findViewById(R.id.profileButton);
-        playerButton = findViewById(R.id.playerButton);
-        partyButton = findViewById(R.id.partyButton);
+        playerButton = findViewById(R.id.searchUsersButton);
+        partyButton = findViewById(R.id.requestsButton);
         friendsButton = findViewById(R.id.friendsButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, FindFriendActivity.class));
+                startActivity(new Intent(HomeActivity.this, FriendOptionsActivity.class));
             }
         });
 

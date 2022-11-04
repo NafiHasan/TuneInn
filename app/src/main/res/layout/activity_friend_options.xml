@@ -4,37 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    tools:context=".FriendOptionsActivity"
     android:background="@color/dark_green">
 
     <Button
         android:id="@+id/requestsButton"
-        android:layout_width="124dp"
-        android:layout_height="74dp"
+        android:layout_width="166dp"
+        android:layout_height="75dp"
         android:layout_marginTop="80dp"
 
-        android:text="Party"
-        android:textColor="@color/white"
         android:backgroundTint="@color/light_green"
-        android:textStyle="bold"
+        android:text="Requests"
+        android:textColor="@color/white"
         android:textSize="18sp"
+        android:textStyle="bold"
 
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.216" />
 
     <Button
         android:id="@+id/searchUsersButton"
-        android:layout_width="124dp"
-        android:layout_height="74dp"
+        android:layout_width="166dp"
+        android:layout_height="75dp"
         android:layout_marginTop="50dp"
 
 
         android:backgroundTint="@color/light_green"
-        android:text="Player"
+        android:text="Search User"
         android:textColor="@color/white"
         android:textSize="18sp"
 
@@ -46,54 +47,16 @@
         app:layout_constraintTop_toBottomOf="@+id/friendsButton" />
 
     <Button
-        android:id="@+id/profileButton"
-        android:layout_width="124dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="50dp"
-
-
-        android:backgroundTint="@color/light_green"
-        android:text="Profile"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-
-
-        app:layout_constraintEnd_toEndOf="@+id/searchUsersButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/searchUsersButton"
-        app:layout_constraintTop_toBottomOf="@+id/searchUsersButton" />
-
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="124dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="50dp"
-
-
-        android:backgroundTint="@color/light_green"
-        android:text="Logout"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-
-
-        app:layout_constraintEnd_toEndOf="@+id/profileButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/profileButton"
-        app:layout_constraintTop_toBottomOf="@+id/profileButton" />
-
-    <Button
         android:id="@+id/friendsButton"
-        android:layout_width="124dp"
-        android:layout_height="74dp"
+        android:layout_width="166dp"
+        android:layout_height="75dp"
         android:layout_marginTop="50dp"
 
+        android:backgroundTint="@color/light_green"
         android:text="Friends"
         android:textColor="@color/white"
-        android:backgroundTint="@color/light_green"
-        android:textStyle="bold"
         android:textSize="18sp"
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/requestsButton"

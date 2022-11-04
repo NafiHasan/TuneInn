@@ -3,7 +3,6 @@ package com.example.tuneinn;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -33,7 +31,7 @@ public class FindFriendActivity extends AppCompatActivity {
 
 
 
-    Toolbar toolbar;
+//    Toolbar toolbar;
 
     DatabaseReference mUserRef;
     FirebaseAuth mAuth;
@@ -57,7 +55,7 @@ public class FindFriendActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        findFriendRecycler = findViewById(R.id.findFriendRecycler);
+        findFriendRecycler = findViewById(R.id.friendsRecycler);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        toolbar.setTitle("Find Friends");
 
