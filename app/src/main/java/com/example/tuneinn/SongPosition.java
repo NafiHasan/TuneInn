@@ -15,4 +15,6 @@ public class SongPosition {
     public static byte[] currentArt = null;
     public static ArrayList<Song> allSongs;
     public static ArrayList<Song> currentSongList;
+    public static int listType;
+    public static int playlistNo = -1;
 }
