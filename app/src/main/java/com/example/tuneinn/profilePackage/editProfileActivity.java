@@ -1,4 +1,4 @@
-package com.example.tuneinn;
+package com.example.tuneinn.profilePackage;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tuneinn.R;
+import com.example.tuneinn.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,13 +83,8 @@ public class editProfileActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                task.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        url = uri.toString();
-                    }
-                });
-                System.out.println("OHNO : "+ url);
+                task.addOnSuccessListener(uri1 -> url = uri1.toString());
+//                System.out.println("OHNO : "+ url);
 //                }
 //                else{
 //                    System.out.println("OHNO");
@@ -116,6 +113,9 @@ public class editProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        // set title of the page
+        setTitle("Edit Your Profile");
+
         goBackButton = (Button) findViewById(R.id.declineButton);
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
         saveProfileButton = (Button) findViewById(R.id.addFriendButton);
@@ -123,7 +123,7 @@ public class editProfileActivity extends AppCompatActivity {
         profileImageView = (CircleImageView) findViewById(R.id.profileImage);
         editUserName = findViewById(R.id.editUserName);
         editEmail = findViewById(R.id.editEmail);
-        editPassword = findViewById(R.id.editPassword);
+//        editPassword = findViewById(R.id.editPassword);
         editGenre = findViewById(R.id.editGenre);
 
 //        downloadURL = HomeActivity.imageURL;

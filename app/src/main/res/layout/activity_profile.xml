@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="@drawable/gradient_blur_3">
+    tools:context=".profilePackage.ProfileActivity"
+    android:background="@color/dark_green">
 
 
     <TextView
@@ -18,6 +18,7 @@
         android:textColor="@color/white"
         android:textColorHint="#F1E9E9"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +52,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,17 +80,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.519" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/addFriendButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="183dp"
+        android:layout_height="70dp"
 
 
-        android:background="@drawable/border"
-        android:text="edit profile                     >"
+        android:backgroundTint="@color/light_green"
+        android:text="edit profile"
         android:textColor="@color/white"
         android:textSize="18sp"
-
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,16 +98,16 @@
         app:layout_constraintTop_toBottomOf="@+id/userName"
         app:layout_constraintVertical_bias="0.57" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/declineButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="183dp"
+        android:layout_height="70dp"
 
-        android:background="@drawable/border"
-        android:text="         back                        >"
+        android:backgroundTint="@color/light_green"
+        android:text="back"
         android:textColor="@color/white"
         android:textSize="18sp"
-
+        android:textStyle="bold"
 
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +142,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/emailTextView"
@@ -158,7 +159,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/userEmail"

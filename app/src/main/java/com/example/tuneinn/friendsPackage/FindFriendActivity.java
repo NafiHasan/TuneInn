@@ -1,4 +1,4 @@
-package com.example.tuneinn;
+package com.example.tuneinn.friendsPackage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tuneinn.R;
+import com.example.tuneinn.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +30,6 @@ public class FindFriendActivity extends AppCompatActivity {
 
     FirebaseRecyclerOptions<User> options;
     FirebaseRecyclerAdapter<User, FindFriendViewHolder> adapter;
-
-
-
-//    Toolbar toolbar;
 
     DatabaseReference mUserRef;
     FirebaseAuth mAuth;
@@ -56,9 +54,6 @@ public class FindFriendActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         findFriendRecycler = findViewById(R.id.friendsRecycler);
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle("Find Friends");
-
         findFriendRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         LoadUsers("");

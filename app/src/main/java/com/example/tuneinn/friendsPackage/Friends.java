@@ -1,4 +1,4 @@
-package com.example.tuneinn;
+package com.example.tuneinn.friendsPackage;
 
 public class Friends {
     private String name, email, genre, URL;

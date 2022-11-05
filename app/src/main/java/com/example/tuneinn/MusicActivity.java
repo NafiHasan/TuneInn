@@ -45,6 +45,9 @@ public class MusicActivity extends AppCompatActivity implements DragListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
 
+        // set title of the page
+        setTitle("Music Player");
+
         setID();
 
         if(hasAccessToStorage() != true)
