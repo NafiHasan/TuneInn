@@ -23,15 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:background="@drawable/border"
+        android:background="@drawable/bg3"
+        android:textColor="@color/white"
         android:text="Go to User Profile          " />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/profileFraglogout"
-        android:background="@drawable/border"
+        android:background="@drawable/bg2"
         android:text="Logout"
-        android:textColor="@color/light_red"
+        android:textColor="@color/white"
         android:layout_marginTop="320dp"
         />
 </RelativeLayout>
