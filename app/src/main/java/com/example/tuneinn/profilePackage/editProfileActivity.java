@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tuneinn.HomeBNB;
+import com.example.tuneinn.ProfileFragment;
 import com.example.tuneinn.R;
 import com.example.tuneinn.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,15 +43,13 @@ public class editProfileActivity extends AppCompatActivity {
 
     private CircleImageView profileImageView;
     private TextView editUserName, editEmail, editPassword, editGenre;
-    private Button goBackButton, uploadImageButton, saveProfileButton;
+    private Button uploadImageButton, saveProfileButton;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     DatabaseReference mUserRef;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    FirebaseFirestore mStore;
 
-//    private String filepath, downloadURL, Uid;
     private String name, email, genre, url;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -59,9 +59,6 @@ public class editProfileActivity extends AppCompatActivity {
                 public void onActivityResult(Uri uri) {
                     if(uri != null){
                         profileImageView.setImageURI(uri);
-//                        HomeActivity.imageURL = uri.toString();
-//                        url = uri.toString();
-//                        downloadURL = uri.toString();
                         uploadImagetoDB(uri);
                     }
                 }
@@ -76,35 +73,18 @@ public class editProfileActivity extends AppCompatActivity {
         final String randomKey = UUID.randomUUID().toString();
         StorageReference Ref = storageReference.child("image/" + randomKey);
 
-        Ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+        Ref.putFile(uri).addOnSuccessListener(taskSnapshot -> {
+            progressDialog.dismiss();
 
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-
-                Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                task.addOnSuccessListener(uri1 -> url = uri1.toString());
-//                System.out.println("OHNO : "+ url);
-//                }
-//                else{
-//                    System.out.println("OHNO");
-//                }
-//                String id = mUserRef.push().getKey();
-//                mUserRef.child(id).setValue(uri.toString());
-                Snackbar.make(findViewById(android.R.id.content), "Image Uploaded.", Snackbar.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Failed to Upload: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progressPercent = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                progressDialog.setMessage("Progress : " + (int)progressPercent + "%");
-            }
+            Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+            task.addOnSuccessListener(uri1 -> url = uri1.toString());
+            Snackbar.make(findViewById(android.R.id.content), "Image Uploaded.", Snackbar.LENGTH_LONG).show();
+        }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Failed to Upload: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }).addOnProgressListener(snapshot -> {
+            double progressPercent = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+            progressDialog.setMessage("Progress : " + (int)progressPercent + "%");
         });
     }
 
@@ -116,35 +96,28 @@ public class editProfileActivity extends AppCompatActivity {
         // set title of the page
         setTitle("Edit Your Profile");
 
-        goBackButton = (Button) findViewById(R.id.declineButton);
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
         saveProfileButton = (Button) findViewById(R.id.addFriendButton);
 
         profileImageView = (CircleImageView) findViewById(R.id.profileImage);
         editUserName = findViewById(R.id.editUserName);
         editEmail = findViewById(R.id.editEmail);
-//        editPassword = findViewById(R.id.editPassword);
         editGenre = findViewById(R.id.editGenre);
 
-//        downloadURL = HomeActivity.imageURL;
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        mStore = FirebaseFirestore.getInstance();
 //        mUserRef = FirebaseDatabase.getInstance().getReference().child("Image");
 //        Uid = mUser.getUid();
 
 
-        //getting info from previous intent
-        Intent data = getIntent();
-        name = data.getStringExtra("name");
-        email = data.getStringExtra("email");
-        genre = data.getStringExtra("genre");
-        url = data.getStringExtra("url");
+        name = HomeBNB.currentUser.getName();
+        email = HomeBNB.currentUser.getEmail();
+        genre = HomeBNB.currentUser.getGenre();
+        url = HomeBNB.currentUser.getUrl();
 
         if(name != null){
             editUserName.setText(name);
             editEmail.setText(email);
-//            editPassword.setText(HomeActivity.userPassword);
             editGenre.setText(genre);
             if(url != null && !url.equals(""))Picasso.get().load(url).into(profileImageView);
 //            Picasso.get().setLoggingEnabled(true);
@@ -156,63 +129,41 @@ public class editProfileActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(editProfileActivity.this, ProfileActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("email", email);
-                intent.putExtra("genre", genre);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                finish();
-            }
-        });
+        uploadImageButton.setOnClickListener(view -> mGetContent.launch("image/*"));
 
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGetContent.launch("image/*");
-            }
-        });
+        saveProfileButton.setOnClickListener(view -> {
+            name = editUserName.getText().toString();
+            email = editEmail.getText().toString();
+            genre = editGenre.getText().toString();
 
-        saveProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                name = editUserName.getText().toString();
-                email = editEmail.getText().toString();
-                genre = editGenre.getText().toString();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+            String userID = user.getUid();
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-                String userID = user.getUid();
+            User userProfile = new User();
+            userProfile.updateUser(name, email, "", genre, url);
 
-                User userProfile = new User();
-                userProfile.updateUser(name, email, "", genre, url);
+            reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        name = userProfile.name;
+                        email = userProfile.email;
+                        genre = userProfile.genre;
+                        url = userProfile.URL;
 
-                reference.child(userID).setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            name = userProfile.name;
-                            email = userProfile.email;
-//                            userPassword = userProfile.password;
-                            genre = userProfile.genre;
-                            url = userProfile.URL;
-
-                            Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(view.getContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+            });
 
-                Intent intent = new Intent(editProfileActivity.this, ProfileActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("email", email);
-                intent.putExtra("genre", genre);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                finish();
-            }
+            Intent intent = new Intent(editProfileActivity.this, ProfileActivity.class);
+            HomeBNB.currentUser.setName(name);
+            HomeBNB.currentUser.setEmail(email);
+            HomeBNB.currentUser.setGenre(genre);
+            HomeBNB.currentUser.setUrl(url);
+            startActivity(intent);
+            finish();
         });
     }
 }

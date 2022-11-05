@@ -33,7 +33,7 @@ public class FriendListActivity extends AppCompatActivity {
     FirebaseRecyclerOptions<Friends> options;
     FirebaseRecyclerAdapter<Friends, FriendsViewHolder> adapter;
 
-    private DatabaseReference mUserRef;
+    private DatabaseReference mUserRef, mFrndRef;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
@@ -51,7 +51,9 @@ public class FriendListActivity extends AppCompatActivity {
         friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         // database variables
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("Friends");
+
+        mUserRef = FirebaseDatabase.getInstance().getReference();
+        mFrndRef = FirebaseDatabase.getInstance().getReference().child("Friends");
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
@@ -59,7 +61,8 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void LoadFriends(String s) {
-        Query query = mUserRef.child(mUser.getUid()).orderByChild("name").startAt(s).endAt(s + "\uf8ff");
+
+        Query query = mFrndRef.child(mUser.getUid()).orderByChild("name").startAt(s.toLowerCase()).endAt(s.toLowerCase() + "\uf8ff");
         options = new FirebaseRecyclerOptions.Builder<Friends>().setQuery(query, Friends.class).build();
         adapter = new FirebaseRecyclerAdapter<Friends, FriendsViewHolder>(options) {
 

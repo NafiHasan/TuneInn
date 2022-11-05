@@ -18,6 +18,9 @@ public class HomeBNB extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     FrameLayout frameLayout;
 
+    // storing info about current user
+    public static CurrentUser currentUser = new CurrentUser();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_bnb);

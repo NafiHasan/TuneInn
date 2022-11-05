@@ -54,12 +54,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(HomeActivity.this, ProfileActivity.class);
-//                System.out.println("userName = " + userName);
                 intent1.putExtra("name", userName);
                 intent1.putExtra("email", userEmail);
-//                intent.putExtra("userPassword", userPassword);
                 intent1.putExtra("genre", favGenre);
-                System.out.println("Printing " + imageURL);
                 intent1.putExtra("url", imageURL);
                 startActivity(intent1);
 //                finish();
@@ -109,8 +106,6 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Success data", Toast.LENGTH_SHORT).show();
                     System.out.println("Nafi Success");
                     imageURL = userProfile.URL;
-                    System.out.println("Gettingurl " + imageURL);
-//                    System.out.println(imageURL);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Error in data", Toast.LENGTH_SHORT).show();

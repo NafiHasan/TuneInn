@@ -31,7 +31,6 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
-    private String userName, userEmail, userPassword, favGenre, imageURL;
     public static boolean done = false;
 
     private Button logoutButton;
@@ -54,28 +53,11 @@ public class ProfileFragment extends Fragment {
         logoutButton = v.findViewById(R.id.profileFraglogout);
 
 
-       profilePageButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent intent1 = new Intent(getContext(), ProfileActivity.class);
-//                System.out.println("userName = " + userName);
-               intent1.putExtra("name", userName);
-               intent1.putExtra("email", userEmail);
-//                intent.putExtra("userPassword", userPassword);
-               intent1.putExtra("genre", favGenre);
-               System.out.println("Printing " + imageURL);
-               intent1.putExtra("url", imageURL);
-               startActivity(intent1);
-           }
-
+       profilePageButton.setOnClickListener(view -> {
+           startActivity(new Intent(getContext(), ProfileActivity.class));
        });
 
-       logoutButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               startActivity(new Intent(getContext(), LoginActivity.class));
-           }
-       });
+       logoutButton.setOnClickListener(view -> startActivity(new Intent(getContext(), LoginActivity.class)));
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -90,19 +72,14 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile = snapshot.getValue(User.class);
                 if(userProfile != null){
-                    userName = userProfile.name;
-                    userEmail = userProfile.email;
-                    userPassword = userProfile.password;
-                    favGenre = userProfile.genre;
-                   // Toast.makeText(getContext(), "Success data", Toast.LENGTH_SHORT).show();
-                    System.out.println("Nafi Success");
-                    imageURL = userProfile.URL;
-                    System.out.println("Gettingurl " + imageURL);
-//                    System.out.println(imageURL);
+                    HomeBNB.currentUser.setName(userProfile.name);
+                    HomeBNB.currentUser.setEmail(userProfile.email);
+                    HomeBNB.currentUser.setGenre(userProfile.genre);
+                    HomeBNB.currentUser.setUrl(userProfile.URL);
+                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getContext(), "Error in data", Toast.LENGTH_SHORT).show();
-                    System.out.println("Nafi Error");
+                    Toast.makeText(getContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
                 }
             }
 

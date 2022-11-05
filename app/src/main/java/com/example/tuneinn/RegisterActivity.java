@@ -41,12 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
         Button signupButton = (Button) findViewById(R.id.signupButton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        gotoSigninButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                finish();
-            }
+        gotoSigninButton.setOnClickListener(view -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
 
         signupButton.setOnClickListener(new View.OnClickListener() {
@@ -88,70 +85,36 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         progressBar.setVisibility(View.VISIBLE);
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(RegisterActivity.this, "Authentication done.",
-//                                    Toast.LENGTH_SHORT).show();
-////                            progressBar.setVisibility(View.GONE);
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//
-//                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-//                            finish();
-//                        } else {
-//                            Toast.makeText(RegisterActivity.this, "Authentication failed."
-//                                            + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//
-////                            progressBar.setVisibility(View.GONE);
-//                        }
-//                    }
-//                });
-
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                .addOnCompleteListener(task -> {
 
-                        if(task.isSuccessful()){
-                            User user = new User(name, email, password);
+                    if(task.isSuccessful()){
+                        User user = new User(name, email, password);
 
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(RegisterActivity.this,
-                                                        "Successfully Registered.", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setValue(user).addOnCompleteListener(task1 -> {
+                                    if(task1.isSuccessful()){
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Successfully Registered.", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
 //                                              FirebaseUser user = mAuth.getCurrentUser();
-                                                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                                                intent.putExtra("name", name);
-                                                intent.putExtra("email", email);
-                                                intent.putExtra("genre", "");
-                                                intent.putExtra("url", "");
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            else {
-                                                Toast.makeText(RegisterActivity.this,
-                                                        "Registration failed." + task.getException()
-                                                                .getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    });
-                        }
-                        else {
-                            Toast.makeText(RegisterActivity.this, "Authentication failed."
-                                            + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-
-                            progressBar.setVisibility(View.GONE);
-                        }
+                                        Intent intent = new Intent(RegisterActivity.this, HomeBNB.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Registration failed." + task1.getException()
+                                                        .getMessage(), Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+                    }
+                    else {
+                        Toast.makeText(RegisterActivity.this, "Authentication failed."
+                                        + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }

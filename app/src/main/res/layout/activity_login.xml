@@ -95,6 +95,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:background="@drawable/border"
+        android:outlineSpotShadowColor="@color/white"
 
         android:text="Login  "
         android:textColor="@color/white"
