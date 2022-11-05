@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment {
                     HomeBNB.currentUser.setEmail(userProfile.email);
                     HomeBNB.currentUser.setGenre(userProfile.genre);
                     HomeBNB.currentUser.setUrl(userProfile.URL);
-                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(getContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();

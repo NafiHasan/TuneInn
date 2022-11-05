@@ -14,15 +14,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.tuneinn.HomeBNB;
 import com.example.tuneinn.R;
+import com.example.tuneinn.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class FriendListActivity extends AppCompatActivity {
@@ -52,7 +58,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         // database variables
 
-        mUserRef = FirebaseDatabase.getInstance().getReference();
+        mUserRef = FirebaseDatabase.getInstance().getReference("Users");
         mFrndRef = FirebaseDatabase.getInstance().getReference().child("Friends");
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -75,16 +81,36 @@ public class FriendListActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull FriendsViewHolder holder, int position, @NonNull Friends model) {
-                if(model.getURL() != null && !model.getURL().equals(""))Picasso.get().load(model.getURL()).into(holder.userDP);
-                if(model.getName() != null)holder.userName.setText(model.getName());
-                if(model.getGenre() != null)holder.userGenre.setText(model.getGenre());
+                String id = getRef(position).getKey().toString();
+                // data
+
+                mUserRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User userProfile = snapshot.getValue(User.class);
+                        if(userProfile != null){
+                            if(userProfile.URL != null && !userProfile.URL.equals(""))Picasso.get().load(userProfile.URL).into(holder.userDP);
+                            if(userProfile.name != null)holder.userName.setText(userProfile.name);
+                            if(userProfile.genre != null)holder.userGenre.setText(userProfile.genre);
+//                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error in database!", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 // clicking user's profile
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(FriendListActivity.this, FriendViewActivity.class);
-                        intent.putExtra("userID", getRef(position).getKey().toString());
+                        intent.putExtra("userID", id);
                         startActivity(intent);
                     }
                 });
