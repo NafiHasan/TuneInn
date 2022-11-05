@@ -84,7 +84,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Song song = mySongs.get(holder.getAbsoluteAdapterPosition());
+        Song song = mySongs.get(holder.getAdapterPosition());
         holder.musicFileName.setText(song.getTitle());
 
         byte[] albumArts = getAlbumArt(song.getData());
@@ -103,7 +103,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
             @Override
             public void onClick(View v) {
                 MusicPlayer.getInstance().reset();
-                SongPosition.currentSongPosition = holder.getAbsoluteAdapterPosition();
+                SongPosition.currentSongPosition = holder.getAdapterPosition();
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putExtra("ABC", mySongs);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

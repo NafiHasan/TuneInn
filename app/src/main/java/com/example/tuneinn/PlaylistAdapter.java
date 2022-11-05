@@ -2,6 +2,7 @@ package com.example.tuneinn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         private void showPopUpMenu(View view)
         {
-            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            PopupMenu popupMenu = new PopupMenu(context, view);
             popupMenu.inflate(R.menu.playlist_popup_menu);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
@@ -47,6 +50,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             {
                 case R.id.popup_delete_playlist_button:
                     //delete playlist
+                    int index= getAdapterPosition();
+                    PlaylistInfo.allPlaylists.remove(index);
+                    SharedPreferences sharedPreferences= context.getSharedPreferences("Playlists Details", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor= sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(PlaylistInfo.allPlaylists);
+                    editor.putString("Created Playlists", json);
+                    editor.commit();
                     return true;
 
                 default:

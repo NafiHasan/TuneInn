@@ -29,5 +29,5 @@
         android:layout_marginStart="100dp"
         android:layout_toEndOf="@id/playlist_name"
         android:background="@color/light_black"
-        android:src="@drawable/ic_baseline_more_vert_24" />
+        android:src="@drawable/ic_baseline_delete_24" />
 </RelativeLayout>

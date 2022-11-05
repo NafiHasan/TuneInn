@@ -53,6 +53,6 @@
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@id/drag_handle_playlist_recycler"
         android:background="@color/light_black"
-        android:src="@drawable/ic_baseline_more_vert_24" />
+        android:src="@drawable/ic_baseline_delete_24" />
 
 </RelativeLayout>
