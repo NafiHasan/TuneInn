@@ -32,7 +32,7 @@
         android:layout_height="70dp"
 
 
-        android:background="@drawable/border"
+        android:background="@drawable/bg3"
         android:outlineSpotShadowColor="@color/white"
         android:text="save profile"
         android:textColor="@color/white"
@@ -179,10 +179,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/uploadImageButton"
-        android:layout_width="179dp"
-        android:layout_height="74dp"
+        android:layout_width="189dp"
+        android:layout_height="83dp"
 
-        android:background="@drawable/border"
+        android:background="@drawable/bg3"
         android:outlineSpotShadowColor="@color/white"
 
         android:text="Upload Profile Picture"

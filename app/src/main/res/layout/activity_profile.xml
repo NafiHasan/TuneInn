@@ -86,7 +86,7 @@
         android:layout_height="70dp"
 
 
-        android:background="@drawable/border"
+        android:background="@drawable/bg3"
         android:text="edit profile"
         android:textColor="@color/white"
         android:textSize="18sp"
