@@ -127,6 +127,9 @@
         <!-- android:value="" /> -->
         <!-- </activity> -->
         <activity
+            android:name=".HomeBNB"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false">
             <meta-data

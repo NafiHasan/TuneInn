@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.tuneinn.friendsPackage.FindFriendActivity;
+import com.example.tuneinn.friendsPackage.FriendListActivity;
+
 
 public class FriendsFragment extends Fragment {
     private Button friendsButton, requestsButton, searchUsersButton;
