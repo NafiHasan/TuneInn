@@ -42,25 +42,39 @@ public class LoginActivity extends AppCompatActivity {
         Button gotoRegisterButton = (Button) findViewById(R.id.gotoRegisterButton);
         editEmail = (EditText) findViewById(R.id.editEmail);
         editPassword = (EditText) findViewById(R.id.editPassword);
+        Button forgotPasswordButton = findViewById(R.id.forgotPasswordButton);
 
 
         mAuth = FirebaseAuth.getInstance();
 
         //login button
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginUser();
-               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            }
+        loginButton.setOnClickListener(view -> {
+            loginUser();
+           // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         });
 
         //switching to register page
-        gotoRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
+        gotoRegisterButton.setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            finish();
+        });
+
+        forgotPasswordButton.setOnClickListener(view -> {
+            String email = editEmail.getText().toString();
+            if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                editEmail.setError("Please enter a valid email");
+                editEmail.requestFocus();
+            }else {
+                mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Please Check you E-Mail!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Unable to send E-Mail!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
@@ -82,18 +96,15 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Log in Successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, HomeBNB.class));
-                    finish();
-                }else{
-                    Toast.makeText(LoginActivity.this, "Log in Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                }
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(LoginActivity.this, "Log in Successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, HomeBNB.class));
+                finish();
+            }else{
+                Toast.makeText(LoginActivity.this, "Log in Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

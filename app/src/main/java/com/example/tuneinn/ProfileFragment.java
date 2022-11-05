@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseUser user;
     private DatabaseReference reference;
+    private FirebaseAuth mAuth;
     private String userID;
     public static boolean done = false;
 
@@ -51,13 +53,17 @@ public class ProfileFragment extends Fragment {
 
         profilePageButton = v.findViewById(R.id.profileFragGotobutton);
         logoutButton = v.findViewById(R.id.profileFraglogout);
-
+        mAuth = FirebaseAuth.getInstance();
 
        profilePageButton.setOnClickListener(view -> {
            startActivity(new Intent(getContext(), ProfileActivity.class));
        });
 
-       logoutButton.setOnClickListener(view -> startActivity(new Intent(getContext(), LoginActivity.class)));
+       logoutButton.setOnClickListener(view -> {
+            mAuth.signOut();
+           startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
+       });
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");

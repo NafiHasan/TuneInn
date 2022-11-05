@@ -41,8 +41,6 @@ public class RequestsActivity extends AppCompatActivity {
 
     RecyclerView requestsRecycler;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,10 +101,6 @@ public class RequestsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error in database!", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-//                if(model.getURL() != null && !model.getURL().equals(""))Picasso.get().load(model.getURL()).into(holder.userDP);
-//                if(model.getName() != null)holder.userName.setText(model.getName());
-//                if(model.getGenre() != null)holder.userGenre.setText(model.getGenre());
 
                 // clicking user's profile
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
