@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity"
-    android:background="@color/dark_green">
+    android:background="@drawable/gradient_blur_2">
 
 
     <TextView
@@ -17,7 +17,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -26,18 +26,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.077" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addFriendButton"
-        android:layout_width="183dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
 
-        android:backgroundTint="@color/light_green"
-        android:text="save profile"
+        android:background="@drawable/border"
+        android:text="save profile            >"
         android:textColor="@color/white"
         android:textSize="18sp"
 
-        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.456"
@@ -45,16 +45,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.816" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/declineButton"
-        android:layout_width="183dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-        android:backgroundTint="@color/light_green"
-        android:text="back"
+        android:background="@drawable/border"
+        android:text="     back                   >"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:textStyle="bold"
+
 
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +86,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -129,7 +129,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editUserName"
@@ -147,7 +147,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/emailTextView"
@@ -168,7 +168,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editEmail"
@@ -186,7 +186,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passwordTextView"
@@ -207,7 +207,7 @@
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editPassword"
@@ -216,12 +216,12 @@
         app:layout_constraintTop_toBottomOf="@+id/editPassword"
         app:layout_constraintVertical_bias="0.108" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/uploadImageButton"
         android:layout_width="179dp"
         android:layout_height="74dp"
 
-        android:backgroundTint="@color/light_green"
+        android:background="@drawable/border"
 
         android:text="Upload Profile Picture"
         android:textColor="@color/white"

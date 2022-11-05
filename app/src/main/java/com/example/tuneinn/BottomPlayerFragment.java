@@ -4,8 +4,10 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class BottomPlayerFragment extends Fragment {
     public static ImageView nextButton,playPauseButton,prevButton, albumArt;
     public static TextView songFileName;
     MediaPlayer musicPlayer;
+    byte[] arts;
     View view;
     public BottomPlayerFragment() {
         // Required empty public constructor
@@ -38,7 +41,8 @@ public class BottomPlayerFragment extends Fragment {
         prevButton = view.findViewById(R.id.skipPrevBottom);
         playPauseButton = view.findViewById(R.id.playPauseBottom);
 
-        songFileName.setText(SongPosition.currentSongName);
+        if(SongPosition.currentlyPLayingSong == null)songFileName.setText(SongPosition.currentSongName);
+        else songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
 
         musicPlayer = MusicPlayer.getInstance();
 
@@ -46,7 +50,8 @@ public class BottomPlayerFragment extends Fragment {
         playPauseButton.setImageResource(R.drawable.pause_circle);
         playPauseButton.setOnClickListener(v -> pauseOrPlayCurrentSong());
 
-
+        nextButton.setOnClickListener(v -> playNextSong());
+        prevButton.setOnClickListener(v -> playPrevSong());
 
         return view;
     }
@@ -55,6 +60,18 @@ public class BottomPlayerFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        Log.i("A", "Bottom frag resume");
+
+        musicPlayer = MusicPlayer.getInstance();
+
+        songFileName = view.findViewById(R.id.songFIleNameBottom);
+        albumArt = view.findViewById(R.id.bottomFragAlbumArt);
+        nextButton = view.findViewById(R.id.skipNextBottom);
+        prevButton = view.findViewById(R.id.skipPrevBottom);
+        playPauseButton = view.findViewById(R.id.playPauseBottom);
+
+        if(SongPosition.currentlyPLayingSong == null)songFileName.setText(SongPosition.currentSongName);
+        else songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
         if(musicPlayer.isPlaying())playPauseButton.setImageResource(R.drawable.pause_circle);
         else playPauseButton.setImageResource(R.drawable.play_circle);
 
@@ -81,5 +98,112 @@ public class BottomPlayerFragment extends Fragment {
             musicPlayer.start();
             playPauseButton.setImageResource(R.drawable.pause_circle);
         }
+    }
+
+    private void playPrevSong()
+    {
+        if(SongPosition.currentSongList.size() == 0)return;
+        else if(SongPosition.currentSongPosition == 0)
+        {
+            return;
+        }
+        else
+        {
+            SongPosition.currentSongPosition -= 1;
+            musicPlayer.reset();
+            SongPosition.currentlyPLayingSong = SongPosition.currentSongList.get(SongPosition.currentSongPosition);
+            songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
+            try {
+                musicPlayer.setDataSource(SongPosition.currentlyPLayingSong.getData());
+                musicPlayer.prepare();
+                musicPlayer.start();
+                playPauseButton.setImageResource(R.drawable.pause_circle);
+
+
+            } catch (IOException e) {
+
+            }
+
+            arts = getAlbumArt(SongPosition.currentlyPLayingSong.getData());
+            SongPosition.currentArt = arts;
+
+            if(arts != null)
+            {
+                Glide.with(this).asBitmap().load(arts).into(albumArt);
+                //Glide.with(this).asBitmap().load(SongPosition.currentArt).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = arts;
+            }
+
+            else
+            {
+                Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(albumArt);
+                //Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = null;
+            }
+
+
+
+        }
+    }
+
+    private void playNextSong()
+    {
+        if(SongPosition.currentSongList.size() == 0)return;
+        else if(SongPosition.currentSongPosition  == SongPosition.currentSongList.size() - 1)
+        {
+            return;
+        }
+        else
+        {
+            SongPosition.currentSongPosition += 1;
+            musicPlayer.reset();
+            SongPosition.currentlyPLayingSong = SongPosition.currentSongList.get(SongPosition.currentSongPosition);
+            songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
+            try {
+                musicPlayer.setDataSource(SongPosition.currentlyPLayingSong.getData());
+                musicPlayer.prepare();
+                musicPlayer.start();
+                playPauseButton.setImageResource(R.drawable.pause_circle);
+
+
+            } catch (IOException e) {
+
+            }
+
+            arts = getAlbumArt(SongPosition.currentlyPLayingSong.getData());
+            SongPosition.currentArt = arts;
+
+            if(arts != null)
+            {
+                Glide.with(this).asBitmap().load(arts).into(albumArt);
+                //Glide.with(this).asBitmap().load(SongPosition.currentArt).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = arts;
+            }
+
+            else
+            {
+                Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(albumArt);
+                //Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = null;
+            }
+
+        }
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Log.i("B", "Bottom frag created");
+    }
+
+    private byte[] getAlbumArt(String uri)
+    {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] albumArt = retriever.getEmbeddedPicture();
+        retriever.release();
+        return albumArt;
     }
 }

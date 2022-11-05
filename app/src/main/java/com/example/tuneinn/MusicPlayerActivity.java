@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -26,6 +28,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     TextView currentTime;
     TextView totalTime;
     SeekBar musicBar;
+    SeekBar volumeBar;
     ImageView pauseOrPlayButton;
     ImageView nextSongButton;
     ImageView previousSongButton;
@@ -33,7 +36,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ArrayList<Song> mySongs;
     Song currentSong;
     Uri uri;
-
+    AudioManager audioManager;
     ActionBar actionBar;
 
     @Nullable
@@ -52,6 +55,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         setUpMusicPlayer();
         updateSeekbarAndTime();
         updateSeekbarListener();
+        updateVolumeBarListener();
     }
 
     void updateSeekbarAndTime()
@@ -70,7 +74,33 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
 
     }
+    void updateVolumeBarListener()
+    {
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeBar.setMax(maxVolume);
+        volumeBar.setProgress(curVolume);
+
+        volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
     void updateSeekbarListener()
     {
         musicBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -94,6 +124,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     void setUpMusicPlayer()
     {
         currentSong = mySongs.get(SongPosition.currentSongPosition);
+        SongPosition.currentSongList = mySongs;
         SongPosition.currentlyPLayingSong = currentSong;
         uri = Uri.parse(currentSong.getData());
         musicFileName.setText(currentSong.getTitle());
@@ -188,6 +219,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     void setID()
     {
         musicFileName = findViewById(R.id.musicFileName);
+        volumeBar = findViewById(R.id.volumeBar);
         currentTime = findViewById(R.id.currentTime);
         totalTime = findViewById(R.id.totalTime);
         musicBar = findViewById(R.id.musicBar);

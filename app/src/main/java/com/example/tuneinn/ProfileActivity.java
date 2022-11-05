@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                //startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.putExtra("genre", genre);
                 intent.putExtra("url", url);
                 startActivity(intent);
-//                finish();
+                finish();
             }
         });
 

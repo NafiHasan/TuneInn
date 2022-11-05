@@ -4,22 +4,53 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/bg.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/gradient_blur.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/gradient_blur_2.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/gradient_blur_3.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/gradient_blur_4.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/gradient_blur_5.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/ic_baseline_drag_handle_24.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/ic_baseline_music_note_24.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_baseline_volume_down_24.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/pause_circle.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/play_circle.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/skip_next.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/skip_previous.xml" value="0.19" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/activity_find_friend.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/activity_friend_list.xml" value="0.1358695652173913" />
+        <entry key="app/src/main/res/layout/activity_friend_options.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_friend_view.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/activity_home_bnb.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_music.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_music_player.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/enter_playlist_name.xml" value="0.2857789855072464" />
         <entry key="app/src/main/res/layout/fragment_bottom_player.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/fragment_friends.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/fragment_music.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_party.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/playlist_music.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/playlist_recycler.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/song_recycler.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/song_recycler_choose_song.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/song_recycler_playlist.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/user_view.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/menu/home_menu.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/menu/playlist_popup_menu.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/menu/playlist_song_popup_menu.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/menu/popupmenu.xml" value="0.35520833333333335" />
       </map>
     </option>
   </component>

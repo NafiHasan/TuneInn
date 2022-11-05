@@ -46,7 +46,7 @@ public class FindFriendActivity extends AppCompatActivity {
 
         // set title of the page
         setTitle("Find Friends");
-        getSupportActionBar().setIcon(R.drawable.ic_baseline_search_24);
+       // getSupportActionBar().setIcon(R.drawable.ic_baseline_search_24);
 
 
 

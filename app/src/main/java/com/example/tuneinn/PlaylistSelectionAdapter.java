@@ -2,6 +2,7 @@ package com.example.tuneinn;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -70,9 +71,11 @@ public class PlaylistSelectionAdapter extends RecyclerView.Adapter<PlaylistSelec
                 editor.putString("Created Playlists", json);
                 editor.commit();
 
-                Intent intent= new Intent(context,MusicActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                //Intent intent= new Intent(context,HomeBNB.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //context.startActivity(intent);
+
+                ((Activity)context).finish();
             }
         });
     }

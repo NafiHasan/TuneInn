@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/card_bottom_player"
-        android:background="@color/teal_200"
+        android:background="@drawable/gradient_blur_4"
         android:padding="5dp"
         >
         <ImageView
@@ -47,18 +47,18 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             />
+
         <TextView
+            android:id="@+id/songFIleNameBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/songFIleNameBottom"
-            android:text="Song File name"
-            android:textColor="@color/white"
-            android:layout_toEndOf="@id/bottomFragAlbumArt"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/skipPrevBottom"
+            android:layout_toEndOf="@id/bottomFragAlbumArt"
+            android:maxLines="1"
             android:padding="10dp"
             android:singleLine="true"
-            android:maxLines="1"
-            />
+            android:text="Song File name"
+            android:textColor="@color/white" />
     </RelativeLayout>
 </FrameLayout>

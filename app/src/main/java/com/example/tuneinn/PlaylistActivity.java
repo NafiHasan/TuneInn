@@ -25,6 +25,12 @@ public class PlaylistActivity extends AppCompatActivity {
         handleEvents();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setPlaylistsRecyclerView();
+    }
+
     private void initViews() {
         addButton= findViewById(R.id.add_new_playlist_button);
     }

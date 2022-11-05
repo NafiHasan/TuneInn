@@ -45,6 +45,6 @@ public class PlaylistSelectionActivity extends AppCompatActivity {
         playlists= PlaylistInfo.allPlaylists;
 
         playlistsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        playlistsRecyclerView.setAdapter(new PlaylistSelectionAdapter(playlists, getApplicationContext()));
+        playlistsRecyclerView.setAdapter(new PlaylistSelectionAdapter(playlists, PlaylistSelectionActivity.this));
     }
 }

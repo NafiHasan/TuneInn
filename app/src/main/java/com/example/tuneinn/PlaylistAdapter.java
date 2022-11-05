@@ -3,11 +3,14 @@ package com.example.tuneinn;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,12 +19,40 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     ArrayList<Playlist> playlists;
     Context context;
+    ImageButton optionsButton;
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
         TextView playlistName;
         ViewHolder(View itemView){
             super(itemView);
             playlistName= itemView.findViewById(R.id.playlist_name);
+            optionsButton = itemView.findViewById(R.id.playlist_options_button);
+            optionsButton.setOnClickListener(this);
+        }
+
+        public void onClick(View view) {
+            showPopUpMenu(view);
+        }
+
+        private void showPopUpMenu(View view)
+        {
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            popupMenu.inflate(R.menu.playlist_popup_menu);
+            popupMenu.setOnMenuItemClickListener(this);
+            popupMenu.show();
+        }
+
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId())
+            {
+                case R.id.popup_delete_playlist_button:
+                    //delete playlist
+                    return true;
+
+                default:
+                    return false;
+            }
+
         }
     }
 

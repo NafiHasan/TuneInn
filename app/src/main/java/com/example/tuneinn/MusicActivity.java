@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +25,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MusicActivity extends AppCompatActivity {
+public class MusicActivity extends AppCompatActivity implements DragListener{
 
     RecyclerView songListRecyclerView;
     ArrayList<Song> mySongs;
@@ -35,6 +36,8 @@ public class MusicActivity extends AppCompatActivity {
     FrameLayout frag_bottom_player;
     Button playlists;
     TextView currentPlaylist;
+    MusicAdapterPlaylistMusic adapterPlaylistMusic;
+    ItemTouchHelper touchHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -61,6 +64,7 @@ public class MusicActivity extends AppCompatActivity {
 
         getDataFromStorage();
         addSong();
+
         playlists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +80,8 @@ public class MusicActivity extends AppCompatActivity {
         mySongs = new ArrayList<>();
         uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         playlists= findViewById(R.id.playlistButton);
+        if(PlaylistInfo.currentPlaylistPosition == -1)playlists.setVisibility(View.VISIBLE);
+
         currentPlaylist= findViewById(R.id.textView);
     }
 
@@ -110,10 +116,26 @@ public class MusicActivity extends AppCompatActivity {
             mySongs= PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getSongs();
             currentPlaylist.setText(PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getName());
             PlaylistInfo.currentPlaylistPosition= -1;
+
+            adapterPlaylistMusic = new MusicAdapterPlaylistMusic(mySongs, getApplicationContext(), this);
+
+            ItemTouchHelper.Callback callback = new MoveItemCallback(adapterPlaylistMusic);
+
+            touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(songListRecyclerView);
+            songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            songListRecyclerView.setAdapter(adapterPlaylistMusic);
+            cursor.close();
+            return;
         }
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         songListRecyclerView.setAdapter(new MusicAdapter(mySongs, getApplicationContext()));
         cursor.close();
        // Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+    }
+
+    public void requestDrag(RecyclerView.ViewHolder viewHolder)
+    {
+        touchHelper.startDrag(viewHolder);
     }
 }

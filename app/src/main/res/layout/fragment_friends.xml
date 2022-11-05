@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FriendsFragment"
+    android:background="@drawable/gradient_blur">
+
+    <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/requestsButtonf"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="@drawable/gradient_blur_5"
+    android:layout_marginTop="80dp"
+
+    android:text="Requests"
+    android:textColor="@color/white"
+    android:textSize="18sp"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.216" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/searchUsersButtonf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_blur_5"
+        android:layout_marginTop="50dp"
+
+        android:text="Search User"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+
+        app:layout_constraintEnd_toEndOf="@+id/friendsButtonf"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/friendsButtonf"
+        app:layout_constraintTop_toBottomOf="@+id/friendsButtonf" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/friendsButtonf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/gradient_blur_5"
+
+        android:text="Friends"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/requestsButtonf"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="@+id/requestsButtonf"
+        app:layout_constraintTop_toBottomOf="@+id/requestsButtonf"
+        app:layout_constraintVertical_bias="0.002" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

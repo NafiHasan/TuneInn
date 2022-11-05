@@ -14,4 +14,5 @@ public class SongPosition {
     public static Song currentlyPLayingSong = null;
     public static byte[] currentArt = null;
     public static ArrayList<Song> allSongs;
+    public static ArrayList<Song> currentSongList;
 }
