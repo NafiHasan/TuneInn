@@ -1,4 +1,4 @@
-package com.example.tuneinn;
+package com.example.tuneinn.profilePackage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.tuneinn.HomeActivity;
+import com.example.tuneinn.R;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -22,27 +25,24 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // set title of the page
+        setTitle("Your Profile");
+
         goBackButton = (Button) findViewById(R.id.declineButton);
         editProfileButton = (Button) findViewById(R.id.addFriendButton);
 
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
-                finish();
-            }
+        goBackButton.setOnClickListener(view -> {
+            startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+            finish();
         });
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, editProfileActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("email", email);
-                intent.putExtra("genre", genre);
-                intent.putExtra("url", url);
-                startActivity(intent);
+        editProfileButton.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, editProfileActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("email", email);
+            intent.putExtra("genre", genre);
+            intent.putExtra("url", url);
+            startActivity(intent);
 //                finish();
-            }
         });
 
         userNameText = (TextView) findViewById(R.id.userName);
@@ -63,17 +63,14 @@ public class ProfileActivity extends AppCompatActivity {
         if(name != null){
             userNameText.setText(name);
             emailText.setText(email);
-            genreText.setText((genre));
-            System.out.println("url " + url);
+            if(genre != null)genreText.setText((genre));
             if(url != null && !url.equals("")){
-//                Picasso.get().load(url).into(profileImageView);
                 Picasso.get().load(url).into(profileImageView);
-                System.out.println("Loading " + url);
             }
         }
         else {
 //            startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
-//            Toast.makeText(ProfileActivity.this, "Network Problem! Reload again! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(ProfileActivity.this, "Network Problem! Reload again! ", Toast.LENGTH_LONG).show();
         }
     }
 }

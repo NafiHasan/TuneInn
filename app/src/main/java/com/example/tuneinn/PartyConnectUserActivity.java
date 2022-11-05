@@ -69,6 +69,9 @@ public class PartyConnectUserActivity extends AppCompatActivity {
 
         PartyInfo.partyLan= PartyConnectUserActivity.this;
 
+        // set title of the page
+        setTitle("Party");
+
         pb= findViewById(R.id.playlistButton);
 
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);

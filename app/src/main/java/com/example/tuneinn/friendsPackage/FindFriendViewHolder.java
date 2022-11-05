@@ -1,16 +1,12 @@
-package com.example.tuneinn;
+package com.example.tuneinn.friendsPackage;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.tuneinn.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

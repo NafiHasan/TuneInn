@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
+    tools:context=".profilePackage.ProfileActivity"
     android:background="@color/dark_green">
 
 
@@ -138,62 +138,41 @@
         app:layout_constraintTop_toBottomOf="@+id/editUserName"
         app:layout_constraintVertical_bias="0.07" />
 
-    <TextView
-        android:id="@+id/passwordTextView"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
+<!--    <EditText-->
+<!--        android:id="@+id/editPassword"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:minHeight="48dp"-->
 
-        android:text="Password : "
-        android:textAlignment="center"
-        android:textColor="#F6F2F2"
-        android:textSize="24sp"
-        android:textStyle="bold"
+<!--        android:text="password"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#F6F2F2"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/emailTextView"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="@+id/emailTextView"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
-        app:layout_constraintVertical_bias="0.079" />
-
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-
-        android:text="password"
-        android:textAlignment="center"
-        android:textColor="#F6F2F2"
-        android:textSize="24sp"
-        android:textStyle="bold"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editEmail"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail"
-        app:layout_constraintVertical_bias="0.092" />
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/editEmail"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editEmail"-->
+<!--        app:layout_constraintVertical_bias="0.092" />-->
 
     <TextView
         android:id="@+id/genreTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
+        android:layout_marginBottom="256dp"
         android:text="Favourite Genre : "
         android:textAlignment="center"
         android:textColor="#F6F2F2"
         android:textSize="24sp"
-        android:textStyle="bold"
 
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/passwordTextView"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="@+id/passwordTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTextView"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintEnd_toEndOf="@+id/emailTextView"
+        app:layout_constraintStart_toStartOf="@+id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
     <EditText
         android:id="@+id/editGenre"
@@ -210,11 +189,11 @@
         android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editPassword"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword"
-        app:layout_constraintVertical_bias="0.108" />
+        app:layout_constraintEnd_toEndOf="@+id/editEmail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        app:layout_constraintVertical_bias="0.096" />
 
     <Button
         android:id="@+id/uploadImageButton"
