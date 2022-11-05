@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.tuneinn.friendsPackage.FindFriendActivity;
 import com.example.tuneinn.friendsPackage.FriendListActivity;
+import com.example.tuneinn.friendsPackage.RequestsActivity;
 
 
 public class FriendsFragment extends Fragment {
@@ -49,7 +50,7 @@ public class FriendsFragment extends Fragment {
         requestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getContext(), RequestsActivity.class));
             }
         });
 
