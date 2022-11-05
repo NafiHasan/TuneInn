@@ -119,6 +119,28 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.ViewHolder>
                     });
                 }
             });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    SongPosition.currentSongPosition = holder.getAdapterPosition();
+                    String json= String.valueOf(SongPosition.currentSongPosition);
+                    json += "4";
+                    ExecutorService executor= Executors.newSingleThreadExecutor();
+                    String finalJson = json;
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(PartyInfo.isHost){
+                                PartyInfo.partyLan.serverClass.write(finalJson.getBytes());
+                            }
+                            else if(!PartyInfo.isHost){
+                                PartyInfo.partyLan.clientClass.write(finalJson.getBytes());
+                            }
+                        }
+                    });
+                    return true;
+                }
+            });
         }
     }
 

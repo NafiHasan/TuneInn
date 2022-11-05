@@ -27,7 +27,7 @@ public class PlaylistSelectionAdapter extends RecyclerView.Adapter<PlaylistSelec
         TextView playlistName;
         ViewHolder(View itemView){
             super(itemView);
-            playlistName= itemView.findViewById(R.id.playlist_name);
+            playlistName= itemView.findViewById(R.id.music_file_name_choose_song);
         }
     }
 
@@ -39,7 +39,7 @@ public class PlaylistSelectionAdapter extends RecyclerView.Adapter<PlaylistSelec
     @NonNull
     @Override
     public PlaylistSelectionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.playlist_recycler,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.song_recycler_choose_song,parent,false);
         return new PlaylistSelectionAdapter.ViewHolder(view);
     }
 

@@ -2,6 +2,7 @@ package com.example.tuneinn;
 
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class BottomPlayerFragment extends Fragment {
     public static ImageView nextButton,playPauseButton,prevButton, albumArt;
@@ -89,19 +93,77 @@ public class BottomPlayerFragment extends Fragment {
     {
         if(musicPlayer.isPlaying())
         {
-            musicPlayer.pause();
-            playPauseButton.setImageResource(R.drawable.play_circle);
+
+            if(PartyInfo.isConnected && !PartyInfo.isPlayer){
+                ExecutorService executor= Executors.newSingleThreadExecutor();
+                Gson gson = new Gson();
+                String json= String.valueOf(SongPosition.currentSongPosition)+"!";
+                String msg= json;
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(msg != null && PartyInfo.isHost && PartyInfo.partyLan.serverClass!=null){
+                            PartyInfo.partyLan.serverClass.write(msg.getBytes());
+                        }
+                        else if(msg != null && !PartyInfo.isHost && PartyInfo.partyLan.clientClass!=null){
+                            PartyInfo.partyLan.clientClass.write(msg.getBytes());
+                        }
+                    }
+                });
+
+            }
+            else {
+                musicPlayer.pause();
+                playPauseButton.setImageResource(R.drawable.play_circle);
+            }
         }
 
         else
         {
-            musicPlayer.start();
-            playPauseButton.setImageResource(R.drawable.pause_circle);
+            if(PartyInfo.isConnected && !PartyInfo.isPlayer){
+                ExecutorService executor= Executors.newSingleThreadExecutor();
+                Gson gson = new Gson();
+                String json= String.valueOf(SongPosition.currentSongPosition)+"!";
+                String msg= json;
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(msg != null && PartyInfo.isHost && PartyInfo.partyLan.serverClass!=null){
+                            PartyInfo.partyLan.serverClass.write(msg.getBytes());
+                        }
+                        else if(msg != null && !PartyInfo.isHost && PartyInfo.partyLan.clientClass!=null){
+                            PartyInfo.partyLan.clientClass.write(msg.getBytes());
+                        }
+                    }
+                });
+            }
+            else {
+                musicPlayer.start();
+                playPauseButton.setImageResource(R.drawable.pause_circle);
+            }
         }
     }
 
     private void playPrevSong()
     {
+        if(PartyInfo.isConnected && !PartyInfo.isPlayer){
+            ExecutorService executor= Executors.newSingleThreadExecutor();
+            Gson gson = new Gson();
+            String json= String.valueOf(SongPosition.currentSongPosition)+"*";
+            String msg= json;
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if(msg != null && PartyInfo.isHost && PartyInfo.partyLan.serverClass!=null){
+                        PartyInfo.partyLan.serverClass.write(msg.getBytes());
+                    }
+                    else if(msg != null && !PartyInfo.isHost && PartyInfo.partyLan.clientClass!=null){
+                        PartyInfo.partyLan.clientClass.write(msg.getBytes());
+                    }
+                }
+            });
+            return;
+        }
         if(SongPosition.currentSongList.size() == 0)return;
         else if(SongPosition.currentSongPosition == 0)
         {
@@ -148,6 +210,24 @@ public class BottomPlayerFragment extends Fragment {
 
     private void playNextSong()
     {
+        if(PartyInfo.isConnected && !PartyInfo.isPlayer){
+            ExecutorService executor= Executors.newSingleThreadExecutor();
+            Gson gson = new Gson();
+            String json= String.valueOf(SongPosition.currentSongPosition)+"^";
+            String msg= json;
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if(msg != null && PartyInfo.isHost && PartyInfo.partyLan.serverClass!=null){
+                        PartyInfo.partyLan.serverClass.write(msg.getBytes());
+                    }
+                    else if(msg != null && !PartyInfo.isHost && PartyInfo.partyLan.clientClass!=null){
+                        PartyInfo.partyLan.clientClass.write(msg.getBytes());
+                    }
+                }
+            });
+            return;
+        }
         if(SongPosition.currentSongList.size() == 0)return;
         else if(SongPosition.currentSongPosition  == SongPosition.currentSongList.size() - 1)
         {

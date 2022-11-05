@@ -1,6 +1,8 @@
 package com.example.tuneinn;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,7 @@ import android.widget.Button;
 
 public class PartyFragment extends Fragment {
     View v;
+    WifiManager wifiManager;
 
 
     public PartyFragment() {
@@ -25,6 +28,11 @@ public class PartyFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_party, container, false);
 
         Button createParty = v.findViewById(R.id.goToPartyPageButton);
+
+        wifiManager= (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(false);
+        wifiManager.setWifiEnabled(true);
+
 
         createParty.setOnClickListener(new View.OnClickListener() {
             @Override

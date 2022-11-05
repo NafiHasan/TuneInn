@@ -56,7 +56,16 @@ public class MusicPlayerActivity extends AppCompatActivity {
         updateSeekbarAndTime();
         updateSeekbarListener();
         updateVolumeBarListener();
+        musicPlayer.setOnCompletionListener(cListener);
     }
+
+    MediaPlayer.OnCompletionListener cListener = new MediaPlayer.OnCompletionListener(){
+
+        public void onCompletion(MediaPlayer mp){
+            //do something
+            playNextSong();
+        }
+    };
 
     void updateSeekbarAndTime()
     {

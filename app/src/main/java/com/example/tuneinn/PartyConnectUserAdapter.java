@@ -26,7 +26,7 @@ public class PartyConnectUserAdapter extends RecyclerView.Adapter<PartyConnectUs
         ViewHolder(View itemView)
         {
             super(itemView);
-            musicFileName = itemView.findViewById(R.id.music_file_name);
+            musicFileName = itemView.findViewById(R.id.music_file_name_choose_song);
         }
     }
 
@@ -39,7 +39,7 @@ public class PartyConnectUserAdapter extends RecyclerView.Adapter<PartyConnectUs
     @NonNull
     @Override
     public PartyConnectUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.song_recycler,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.song_recycler_choose_song,parent,false);
         return new PartyConnectUserAdapter.ViewHolder(view);
     }
 

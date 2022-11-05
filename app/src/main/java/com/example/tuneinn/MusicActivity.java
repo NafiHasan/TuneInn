@@ -118,7 +118,7 @@ public class MusicActivity extends AppCompatActivity implements DragListener{
         if(PlaylistInfo.currentPlaylistPosition!= -1){
             mySongs= PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getSongs();
             currentPlaylist.setText(PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).getName());
-            PlaylistInfo.currentPlaylistPosition= -1;
+            //PlaylistInfo.currentPlaylistPosition= -1;
 
             adapterPlaylistMusic = new MusicAdapterPlaylistMusic(mySongs, getApplicationContext(), this);
 

@@ -175,7 +175,7 @@ public class MusicAdapterPlaylistMusic extends RecyclerView.Adapter<MusicAdapter
             {
                 Collections.swap(mySongs, i, i+1);
                 //Collections.swap(PlaylistInfo.allPlaylists.get(PlaylistInfo.currentPlaylistPosition).songs,i,i+1);
-                //Log.i("AB", String.valueOf(PlaylistInfo.currentPlaylistPosition));
+                //Log.i("AB", String.valueOf(PlaylistInfo.currentPlaylistPosition) + " sdvavg  " + String.valueOf(SongPosition.playlistNo));
                 if(PlaylistInfo.currentPlaylistPosition == SongPosition.playlistNo)Collections.swap(SongPosition.currentSongList, i, i+1);
             }
         }

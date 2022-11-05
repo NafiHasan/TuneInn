@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/music_item_choose_song_new"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingTop="10dp"
+    android:background="@color/dark_green"
+    android:paddingBottom="10dp">
+
+    <ImageView android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/music_image_choose_song_new"
+        android:layout_centerVertical="true"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File name"
+        android:id="@+id/music_file_name_choose_song_new"
+        android:layout_toEndOf="@id/music_image_choose_song_new"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_drag_handle_24"
+        android:background="@color/dark_green"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/music_file_name_choose_song_new"
+        android:layout_marginStart="200dp"
+        />
+
+
+</RelativeLayout>

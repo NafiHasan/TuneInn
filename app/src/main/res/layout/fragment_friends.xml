@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.AppCompatButton
     android:id="@+id/requestsButtonf"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:background="@drawable/gradient_blur_5"
+    android:layout_height="wrap_content" android:background="@drawable/border"
     android:layout_marginTop="80dp"
 
     android:text="Requests"
@@ -28,7 +28,7 @@
         android:id="@+id/searchUsersButtonf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_blur_5"
+        android:background="@drawable/border"
         android:layout_marginTop="50dp"
 
         android:text="Search User"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@drawable/gradient_blur_5"
+        android:background="@drawable/border"
 
         android:text="Friends"
         android:textColor="@color/white"

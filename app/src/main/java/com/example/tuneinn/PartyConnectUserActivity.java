@@ -1,21 +1,31 @@
 package com.example.tuneinn;
 
+import static com.example.tuneinn.BottomPlayerFragment.albumArt;
+import static com.example.tuneinn.BottomPlayerFragment.playPauseButton;
+import static com.example.tuneinn.BottomPlayerFragment.songFileName;
+
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,9 +34,13 @@ import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,6 +53,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.LogRecord;
 
 public class PartyConnectUserActivity extends AppCompatActivity {
     static final int READ_HOST_SONGS = 1;
@@ -54,7 +69,8 @@ public class PartyConnectUserActivity extends AppCompatActivity {
     WifiP2pManager.PeerListListener peerListListener;
 
     RecyclerView recyclerView;
-    Button pb;
+    //Button pb;
+    TextView statusText;
 
     Socket socket;
 
@@ -65,20 +81,21 @@ public class PartyConnectUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music);
+        setContentView(R.layout.party_connect);
 
         PartyInfo.partyLan= PartyConnectUserActivity.this;
 
         // set title of the page
         setTitle("Party");
 
-        pb= findViewById(R.id.playlistButton);
+//        pb= findViewById(R.id.playlistButton);
+        statusText= findViewById(R.id.partyConnectStatusText);
 
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(this, getMainLooper(), null);
         receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
 
-        recyclerView= findViewById(R.id.songs_recycler_view);
+        recyclerView= findViewById(R.id.addUserPartyRecycler);
 
         intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -125,7 +142,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                 }
             }
         };
-        pb.setOnClickListener(new View.OnClickListener() {
+       /* pb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ExecutorService executor= Executors.newSingleThreadExecutor();
@@ -147,8 +164,43 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
+
+        PartyInfo.handler = new Handler();
+
+        PartyInfo.handler.postDelayed(runnable,2000);
     }
+
+    public final Runnable runnable = new Runnable()
+    {
+        public void run()
+
+        {
+            //Toast.makeText(refresh.this,"in runnable",Toast.LENGTH_SHORT).show();
+            if(PartyInfo.isPlayer){
+                ExecutorService executor= Executors.newSingleThreadExecutor();
+                PartyInfo.hostSongs= SongPosition.allSongs;
+                PartyInfo.isPlayer= true;
+                Gson gson = new Gson();
+                String json = gson.toJson(SongPosition.allSongs);
+                json += "1";
+                String msg= json;
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(msg != null && PartyInfo.isHost && serverClass!=null){
+                            serverClass.write(msg.getBytes());
+                        }
+                        else if(msg != null && !PartyInfo.isHost && clientClass!=null){
+                            clientClass.write(msg.getBytes());
+                        }
+                    }
+                });
+            }
+            PartyInfo.handler.postDelayed(runnable, 2000);
+        }
+
+    };
 
 
     WifiP2pManager.ConnectionInfoListener connectionInfoListener= new WifiP2pManager.ConnectionInfoListener() {
@@ -157,8 +209,9 @@ public class PartyConnectUserActivity extends AppCompatActivity {
             final InetAddress groupOwnerAddress= wifiP2pInfo.groupOwnerAddress;
             if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner){
 
-                pb.setText("Host");
+                statusText.setText("Connection Status: Host");
                 PartyInfo.isHost= true;
+                PartyInfo.isConnected=true;
                 PartyInfo.hostSongs= SongPosition.allSongs;
 
                 try {
@@ -170,8 +223,9 @@ public class PartyConnectUserActivity extends AppCompatActivity {
             else if(wifiP2pInfo.groupFormed){
                 clientClass= new ClientClass(groupOwnerAddress);
                 clientClass.start();
-                pb.setText("Receiver");
+                statusText.setText("Connection Status: Client");
                 PartyInfo.isHost= false;
+                PartyInfo.isConnected= true;
 
                 try {
                     Thread.sleep(4000);
@@ -266,8 +320,28 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                             SongPosition.currentSongPosition = position;
                                             Intent intent = new Intent(getApplicationContext(), MusicPlayerActivity.class);
                                             intent.putExtra("ABC", PartyInfo.songs);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
+                                        }
+                                        else if(check=='?'){
+                                            json = json.substring(0,json.length()-1);
+                                            MediaPlayer musicPlayer = MusicPlayer.getInstance();
+                                            if(musicPlayer.isPlaying())musicPlayer.pause();
+                                            else musicPlayer.start();
+
+                                        }
+                                        else if(check=='!'){
+                                            json = json.substring(0,json.length()-1);
+                                            MediaPlayer musicPlayer = MusicPlayer.getInstance();
+                                            if(musicPlayer.isPlaying())musicPlayer.pause();
+                                            else musicPlayer.start();
+
+                                        }
+                                        else if(check=='^'){
+                                            playNextSong();
+                                        }
+                                        else if(check=='*'){
+                                            playPrevSong();
                                         }
                                     }
                                 });
@@ -290,6 +364,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
         public ClientClass(InetAddress hostAddress){
             hostAdd= hostAddress.getHostAddress();
             socket= new Socket();
+            //Toast.makeText(PartyConnectUserActivity.this, "Client class created", Toast.LENGTH_SHORT).show();
         }
 
         public void write(byte[] bytes){
@@ -309,6 +384,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
         public void run(){
             try {
                 socket.connect(new InetSocketAddress(hostAdd,8888),500);
+                //Toast.makeText(PartyConnectUserActivity.this, "Socket connected to "+hostAdd, Toast.LENGTH_SHORT).show();
                 inputStream= socket.getInputStream();
                 outputStream= socket.getOutputStream();
             } catch (IOException e) {
@@ -359,8 +435,79 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                             SongPosition.currentSongPosition = position;
                                             Intent intent = new Intent(getApplicationContext(), MusicPlayerActivity.class);
                                             intent.putExtra("ABC", PartyInfo.songs);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
+                                        }
+                                        else if(check=='?'){
+                                            json = json.substring(0,json.length()-1);
+                                            MediaPlayer musicPlayer = MusicPlayer.getInstance();
+                                            musicPlayer.start();
+
+                                        }
+                                        else if(check=='!'){
+                                            json = json.substring(0,json.length()-1);
+                                            MediaPlayer musicPlayer = MusicPlayer.getInstance();
+                                            if(musicPlayer.isPlaying())musicPlayer.pause();
+                                            else musicPlayer.start();
+
+                                        }
+                                        else if(check=='^'){
+                                            playNextSong();
+                                        }
+                                        else if(check=='*'){
+                                            playPrevSong();
+                                        }
+                                        else if(check=='4'){
+                                            json = json.substring(0,json.length()-1);
+                                            Song song= gson.fromJson(json,(Type)Song.class);
+                                            File file= new File(song.getData());
+                                            ContentResolver cr = getContentResolver();
+                                            InputStream inputStream1=new InputStream() {
+                                                @Override
+                                                public int read() throws IOException {
+                                                    return 0;
+                                                }
+                                            };
+                                            try {
+                                                inputStream1 = cr.openInputStream(Uri.parse(song.getData()));
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            }
+                                            int len=0;
+                                            while (true) {
+                                                try {
+                                                    if (!((len = inputStream1.read(buffer)) != -1))
+                                                        break;
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                try {
+                                                    outputStream.write(buffer, 0, len);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            final File f = new File(Environment.getExternalStorageDirectory() + "/"
+                                                    + getPackageName() + "/tuneinnshared-" + System.currentTimeMillis()
+                                                    + ".mp3");
+
+                                            File dirs = new File(f.getParent());
+                                            if (!dirs.exists())
+                                                dirs.mkdirs();
+                                            try {
+                                                f.createNewFile();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                            try {
+                                                copyInputStreamToFile(inputStream, f);
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
                                 });
@@ -374,23 +521,119 @@ public class PartyConnectUserActivity extends AppCompatActivity {
         }
 
     }
-//
-//    public class SendTask extends AsyncTask<Void,Void,Void> {
-//        String message;
-//
-//        SendTask(String msg){
-//            message=msg;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            sendReceive.write(message.getBytes());
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void unused) {
-//            super.onPostExecute(unused);
-//        }
-//    }
+
+    private void playNextSong()
+    {
+        if(SongPosition.currentSongList.size() == 0)return;
+        else if(SongPosition.currentSongPosition  == SongPosition.currentSongList.size() - 1)
+        {
+            return;
+        }
+        else
+        {
+            SongPosition.currentSongPosition += 1;
+            MediaPlayer musicPlayer= MusicPlayer.getInstance();
+            musicPlayer.reset();
+            SongPosition.currentlyPLayingSong = SongPosition.currentSongList.get(SongPosition.currentSongPosition);
+            songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
+            try {
+                musicPlayer.setDataSource(SongPosition.currentlyPLayingSong.getData());
+                musicPlayer.prepare();
+                musicPlayer.start();
+                playPauseButton.setImageResource(R.drawable.pause_circle);
+
+
+            } catch (IOException e) {
+
+            }
+
+           /* byte[] arts = getAlbumArt(SongPosition.currentlyPLayingSong.getData());
+            SongPosition.currentArt = arts;
+
+            if(arts != null)
+            {
+                Glide.with(this).asBitmap().load(arts).into(albumArt);
+                //Glide.with(this).asBitmap().load(SongPosition.currentArt).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = arts;
+            }
+
+            else
+            {
+                Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(albumArt);
+                //Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = null;
+            }*/
+
+        }
+    }
+
+    private byte[] getAlbumArt(String uri)
+    {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] albumArt = retriever.getEmbeddedPicture();
+        retriever.release();
+        return albumArt;
+    }
+
+    private void playPrevSong()
+    {
+        if(SongPosition.currentSongList.size() == 0)return;
+        else if(SongPosition.currentSongPosition == 0)
+        {
+            return;
+        }
+        else
+        {
+            SongPosition.currentSongPosition -= 1;
+            MediaPlayer musicPlayer= MusicPlayer.getInstance();
+            musicPlayer.reset();
+            SongPosition.currentlyPLayingSong = SongPosition.currentSongList.get(SongPosition.currentSongPosition);
+            songFileName.setText(SongPosition.currentlyPLayingSong.getTitle());
+            try {
+                musicPlayer.setDataSource(SongPosition.currentlyPLayingSong.getData());
+                musicPlayer.prepare();
+                musicPlayer.start();
+                playPauseButton.setImageResource(R.drawable.pause_circle);
+
+
+            } catch (IOException e) {
+
+            }
+
+           /* byte[] arts = getAlbumArt(SongPosition.currentlyPLayingSong.getData());
+            SongPosition.currentArt = arts;
+
+            if(arts != null)
+            {
+                Glide.with(this).asBitmap().load(arts).into(albumArt);
+                //Glide.with(this).asBitmap().load(SongPosition.currentArt).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = arts;
+            }
+
+            else
+            {
+                Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(albumArt);
+                //Glide.with(this).load(R.drawable.ic_baseline_music_note_24).into(BottomPlayerFragment.albumArt);
+                SongPosition.currentArt = null;
+            }*/
+
+
+
+        }
+    }
+
+    public static void copyInputStreamToFile(InputStream inputStream, File file)
+            throws IOException {
+
+        // append = false
+        try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+
+    }
 }

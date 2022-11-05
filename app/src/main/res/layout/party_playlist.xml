@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_blur">
 
     <TextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:text="Status"
-        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="10dp"
         />
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addUserPartyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/statusTextView"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
-        android:text="Add"
-        />
-    <Button
+        android:layout_toEndOf="@id/statusTextView"
+        android:background="@drawable/border"
+        android:text="Connect"
+        android:textColor="#ff03dac5" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chooseUserPartyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chooseUserPartyButton"
-        android:layout_toEndOf="@id/addUserPartyButton"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/addUserPartyButton"
+        android:background="@drawable/border"
         android:text="Choose"
-        />
+        android:textColor="#0099FF" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/partyHostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/chooseUserPartyButton"
+        android:background="@drawable/border"
+        android:text="Host"
+        android:textColor="@color/light_red" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Party Songs"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="140dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="450dp"
 
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:id="@+id/partyRecyclerView"
         />
+
+    <FrameLayout
+        android:id="@+id/frame_mini_player_p"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="620dp"
+        android:layout_marginBottom="20dp"
+        >
+
+        <fragment
+            android:name="com.example.tuneinn.BottomPlayerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_bottom_player"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="651dp"
+            />
+    </FrameLayout>
 </RelativeLayout>
