@@ -142,29 +142,6 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                 }
             }
         };
-       /* pb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ExecutorService executor= Executors.newSingleThreadExecutor();
-                PartyInfo.hostSongs= SongPosition.allSongs;
-                PartyInfo.isPlayer= true;
-                Gson gson = new Gson();
-                String json = gson.toJson(SongPosition.allSongs);
-                json += "1";
-                String msg= json;
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(msg != null && PartyInfo.isHost && serverClass!=null){
-                            serverClass.write(msg.getBytes());
-                        }
-                        else if(msg != null && !PartyInfo.isHost && clientClass!=null){
-                            clientClass.write(msg.getBytes());
-                        }
-                    }
-                });
-            }
-        });*/
 
         PartyInfo.handler = new Handler();
 
@@ -184,6 +161,26 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = gson.toJson(SongPosition.allSongs);
                 json += "1";
+                String msg= json;
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(msg != null && PartyInfo.isHost && serverClass!=null){
+                            serverClass.write(msg.getBytes());
+                        }
+                        else if(msg != null && !PartyInfo.isHost && clientClass!=null){
+                            clientClass.write(msg.getBytes());
+                        }
+                    }
+                });
+            }
+            if(PartyInfo.isPlayer){
+                ExecutorService executor= Executors.newSingleThreadExecutor();
+                PartyInfo.hostSongs= SongPosition.allSongs;
+                PartyInfo.isPlayer= true;
+                Gson gson = new Gson();
+                String json = gson.toJson(PartyInfo.songs);
+                json += "9";
                 String msg= json;
                 executor.execute(new Runnable() {
                     @Override
@@ -258,7 +255,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                 if (outputStream==null){
                     if(socket==null)return;
                     outputStream= socket.getOutputStream();
-                    Toast.makeText(PartyConnectUserActivity.this, "!!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(PartyConnectUserActivity.this, "!!!", Toast.LENGTH_SHORT).show();
                 }
                 outputStream.write(bytes);
             } catch (IOException e) {
@@ -296,7 +293,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         String tmpMsg= new String(buffer,0,finalBytes);
-                                        Toast.makeText(PartyConnectUserActivity.this, tmpMsg, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(PartyConnectUserActivity.this, tmpMsg, Toast.LENGTH_SHORT).show();
                                         Gson gson= new Gson();
                                         String json= tmpMsg;
                                         char check= json.charAt(json.length()-1);
@@ -310,7 +307,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                         else if(check=='2'){
                                             json = json.substring(0, json.length() - 1);
                                             Song song= gson.fromJson(json,Song.class);
-                                            Toast.makeText(PartyConnectUserActivity.this, song.getTitle(), Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(PartyConnectUserActivity.this, song.getTitle(), Toast.LENGTH_SHORT).show();
                                             PartyInfo.addSong(song);
                                         }
                                         else if(check=='3'){
@@ -322,6 +319,13 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                             intent.putExtra("ABC", PartyInfo.songs);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
+                                        }
+                                        else if(check=='9'){
+                                            json = json.substring(0, json.length() - 1);
+                                            Type type = new TypeToken<ArrayList<Song>>() {
+                                            }.getType();
+                                            PartyInfo.songs = new Gson().fromJson(json, type);
+                                            PartyInfo.isPlayer=false;
                                         }
                                         else if(check=='?'){
                                             json = json.substring(0,json.length()-1);
@@ -372,7 +376,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                 if(outputStream==null){
                     if(socket==null)return;
                     outputStream= socket.getOutputStream();
-                    Toast.makeText(PartyConnectUserActivity.this, "!!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(PartyConnectUserActivity.this, "!!!", Toast.LENGTH_SHORT).show();
                 }
                 outputStream.write(bytes);
             } catch (IOException e) {
@@ -410,11 +414,11 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         String tmpMsg= new String(buffer,0,finalbytes);
-                                        Toast.makeText(PartyConnectUserActivity.this, tmpMsg, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(PartyConnectUserActivity.this, tmpMsg, Toast.LENGTH_SHORT).show();
                                         Gson gson= new Gson();
                                         String json= tmpMsg;
                                         char check= json.charAt(json.length()-1);
-                                        Toast.makeText(PartyConnectUserActivity.this, "The check is "+check, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(PartyConnectUserActivity.this, "The check is "+check, Toast.LENGTH_SHORT).show();
                                         if(check=='1') {
                                             json = json.substring(0, json.length() - 1);
                                             Type type = new TypeToken<ArrayList<Song>>() {
@@ -425,7 +429,7 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                         else if(check=='2'){
                                             json = json.substring(0, json.length() - 1);
                                             Song song= gson.fromJson(json,(Type)Song.class);
-                                            Toast.makeText(PartyConnectUserActivity.this, song.getTitle(), Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(PartyConnectUserActivity.this, song.getTitle(), Toast.LENGTH_SHORT).show();
                                             PartyInfo.addSong(song);
                                         }
                                         else if(check=='3'){
@@ -437,6 +441,13 @@ public class PartyConnectUserActivity extends AppCompatActivity {
                                             intent.putExtra("ABC", PartyInfo.songs);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
+                                        }
+                                        else if(check=='9'){
+                                            json = json.substring(0, json.length() - 1);
+                                            Type type = new TypeToken<ArrayList<Song>>() {
+                                            }.getType();
+                                            PartyInfo.songs = new Gson().fromJson(json, type);
+                                            PartyInfo.isPlayer=false;
                                         }
                                         else if(check=='?'){
                                             json = json.substring(0,json.length()-1);

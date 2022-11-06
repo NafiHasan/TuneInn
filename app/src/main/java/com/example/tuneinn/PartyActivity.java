@@ -33,7 +33,7 @@ public class PartyActivity extends AppCompatActivity {
         handleEvents();
 
         Handler handler= new Handler();
-        handler.postDelayed(runnable,500);
+        handler.postDelayed(runnable,200);
     }
 
     public final Runnable runnable = new Runnable()
@@ -92,6 +92,9 @@ public class PartyActivity extends AppCompatActivity {
         hostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!PartyInfo.isPlayer){
+                    PartyInfo.songs= new ArrayList<>();
+                }
                 PartyInfo.isPlayer=true;
             }
         });
