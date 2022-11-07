@@ -95,8 +95,8 @@ public class RecommendationsViewActivity extends AppCompatActivity {
                                     if(snapshot.exists() && snapshot.child("Song Name") != null){
                                         songName = snapshot.child("Song Name").getValue().toString();
                                         holder.song_name.setText(txt + songName +"\nRecommended By : " + userProfile.name);
-                                        if(holder.DP != null && !holder.DP.equals(""))Picasso.get().load(userProfile.URL).into(holder.DP);
-                                        Toast.makeText(getApplicationContext(), songName, Toast.LENGTH_SHORT).show();
+                                        if(userProfile.URL != null && !userProfile.URL.equals(""))Picasso.get().load(userProfile.URL).into(holder.DP);
+//                                        Toast.makeText(getApplicationContext(), songName, Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
