@@ -12,8 +12,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsViewHolder extends RecyclerView.ViewHolder {
 
-    CircleImageView userDP;
-    TextView userName, userGenre;
+    public CircleImageView userDP;
+    public TextView userName;
+    public TextView userGenre;
 
     public FriendsViewHolder(@NonNull View itemView) {
         super(itemView);

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -62,7 +63,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder>
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     return true;
-
+                case R.id.popup_recommend_button:
+//                    SongPosition.selectedSongToAdd = getAbsoluteAdapterPosition();
+                    Song song = mySongs.get(getAbsoluteAdapterPosition());
+                    String curSong = song.getTitle();
+                    Intent intent1 = new Intent(context, RecommendSong.class);
+                    intent1.putExtra("songName", curSong);
+//                    Toast.makeText(context, "Selected " + curSong , Toast.LENGTH_SHORT).show();
+                    context.startActivity(intent1);
                 default:
                     return false;
             }

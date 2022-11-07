@@ -3,5 +3,7 @@
 
     <item android:title="Add Song to Playlist"
         android:id="@+id/popup_add_song_to_playlist_button"/>
+    <item android:title="Recommend Song to a Friend"
+        android:id="@+id/popup_recommend_button"/>
 
 </menu>

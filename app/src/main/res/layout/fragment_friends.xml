@@ -59,4 +59,23 @@
         app:layout_constraintTop_toBottomOf="@+id/requestsButtonf"
         app:layout_constraintVertical_bias="0.002" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/recommendationsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/border"
+
+        android:text="Recommendations"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/searchUsersButtonf"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="@+id/searchUsersButtonf"
+        app:layout_constraintTop_toBottomOf="@+id/searchUsersButtonf"
+        app:layout_constraintVertical_bias="0.002" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

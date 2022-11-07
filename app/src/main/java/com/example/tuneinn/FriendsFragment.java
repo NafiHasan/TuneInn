@@ -16,7 +16,7 @@ import com.example.tuneinn.friendsPackage.RequestsActivity;
 
 
 public class FriendsFragment extends Fragment {
-    private Button friendsButton, requestsButton, searchUsersButton;
+    private Button friendsButton, requestsButton, searchUsersButton, recommendationsButton;
     View v;
 
     public FriendsFragment() {
@@ -32,6 +32,7 @@ public class FriendsFragment extends Fragment {
         friendsButton = v.findViewById(R.id.friendsButtonf);
         searchUsersButton = v.findViewById(R.id.searchUsersButtonf);
         requestsButton = v.findViewById(R.id.requestsButtonf);
+        recommendationsButton = v.findViewById(R.id.recommendationsButton);
 
         searchUsersButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +52,13 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), RequestsActivity.class));
+            }
+        });
+
+        recommendationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), RecommendationsViewActivity.class));
             }
         });
 
