@@ -3,6 +3,7 @@ package com.example.tuneinn.friendsPackage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tuneinn.R;
+import com.example.tuneinn.RecommendSong;
+import com.example.tuneinn.RecommendationsViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,7 @@ public class FriendViewActivity extends AppCompatActivity {
 
     private CircleImageView profileImage;
     private TextView userName, userEmail, userGenre;
-    private Button addFriendButton, declineButton;
+    private Button addFriendButton, declineButton, recommendedByYouButton, recommendedByThemButton;
 
     private String CurrentState = "notFriend";
 
@@ -48,6 +51,8 @@ public class FriendViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_view);
 
         String userID = getIntent().getStringExtra("userID");
+        // userID = user id of friend;
+        //mUser.getUid() is for current user
 
         //firebase info
         mUserRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -59,8 +64,9 @@ public class FriendViewActivity extends AppCompatActivity {
 
         //button
         addFriendButton = findViewById(R.id.addFriendButton);
-//        cancelFriendButton = findViewById(R.id.cancelFriendButton);
         declineButton = findViewById(R.id.declineButton);
+        recommendedByYouButton = findViewById(R.id.recommendedByYouButton);
+        recommendedByThemButton = findViewById(R.id.recommendedByThemButton);
 
         // views
         profileImage = findViewById(R.id.profileImage);
@@ -73,12 +79,33 @@ public class FriendViewActivity extends AppCompatActivity {
 
         declineButton.setOnClickListener(view -> Unfriend(userID));
 
+        recommendedByThemButton.setOnClickListener(view -> LoadRecommendations(userID, 1));
+
+        recommendedByYouButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoadRecommendations(userID, 2);
+            }
+        });
+
         LoadCurrentUser(userID);
         LoadMyProfile();
         checkUserExistence(userID);
 
     }
 
+    private void LoadRecommendations(String userID, int num) {
+        Intent intent = new Intent(FriendViewActivity.this, RecommendationsViewActivity.class);
+        if(num == 2){
+            intent.putExtra("userID", userID);
+            intent.putExtra("curUser", mUser.getUid());
+        }
+        else {
+            intent.putExtra("userID", mUser.getUid());
+            intent.putExtra("curUser", userID);
+        }
+        startActivity(intent);
+    }
 
 
     private void Unfriend(String userID) {
@@ -194,10 +221,10 @@ public class FriendViewActivity extends AppCompatActivity {
 //            hashMap.put("email", myEmail);
             HashMap hashMap2 = new HashMap();
             hashMap2.put("Status", "pending");
-            hashMap2.put("name", myName);
-            hashMap2.put("url", myUrl);
-            hashMap2.put("genre", myGenre);
-            hashMap2.put("email", myEmail);
+//            hashMap2.put("name", myName);
+//            hashMap2.put("url", myUrl);
+//            hashMap2.put("genre", myGenre);
+//            hashMap2.put("email", myEmail);
             requestRef.child(mUser.getUid()).child(userID).updateChildren(hashMap).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     recRequestRef.child(userID).child(mUser.getUid()).updateChildren(hashMap2).addOnCompleteListener(task1 -> {

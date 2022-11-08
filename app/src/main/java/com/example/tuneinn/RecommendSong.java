@@ -32,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RecommendSong extends AppCompatActivity {
@@ -62,6 +63,7 @@ public class RecommendSong extends AppCompatActivity {
         friendsRecycler = findViewById(R.id.friendsRecycler);
         friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+
         // database variables
 
         mUserRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -75,7 +77,6 @@ public class RecommendSong extends AppCompatActivity {
 
 
     private void LoadFriends(String s) {
-
         Query query = mFrndRef.child(mUser.getUid()).orderByChild("name").startAt(s.toLowerCase()).endAt(s.toLowerCase() + "\uf8ff");
         options = new FirebaseRecyclerOptions.Builder<Friends>().setQuery(query, Friends.class).build();
         adapter = new FirebaseRecyclerAdapter<Friends, FriendsViewHolder>(options) {
@@ -114,19 +115,19 @@ public class RecommendSong extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error in database!", Toast.LENGTH_SHORT).show();
                     }
                 });
-
                 // clicking user's profile
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    int cnt;
+                    ArrayList<HashMap<String, Object>> getList;
                     @Override
                     public void onClick(View view) {
 //                        Intent intent = new Intent(FriendListActivity.this, FriendViewActivity.class);
 //                        intent.putExtra("userID", id);
 //                        startActivity(intent);
                         HashMap hashMap = new HashMap();
-                        hashMap.put("Song Name", songName);
-//                        hashMap.put("Recommended by", HomeBNB.currentUser.getName());
+                        hashMap.put("SongName", songName);
 
-                        mRecSongRef.child(id).child(mUser.getUid()).updateChildren(hashMap).addOnCompleteListener(task -> {
+                        mRecSongRef.child(id).child(mUser.getUid()).push().updateChildren(hashMap).addOnCompleteListener(task -> {
                             if(task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "Recommended Song to " + userProfile[0].name, Toast.LENGTH_SHORT)
                                         .show();
@@ -136,12 +137,17 @@ public class RecommendSong extends AppCompatActivity {
                                         .show();
                             }
                         });
-//                        Toast.makeText(getApplicationContext(), "Recommended Song to " + userProfile[0].name, Toast.LENGTH_SHORT)
-//                                .show();
+                        Toast.makeText(getApplicationContext(), "Recommended Song to " + userProfile[0].name, Toast.LENGTH_SHORT)
+                                .show();
                     }
                 });
             }
         };
+
+
+
+
+
         adapter.startListening();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(RecommendSong.this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(friendsRecycler.getContext(),

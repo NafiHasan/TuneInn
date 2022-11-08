@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
 //                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
                 }
             }
 
