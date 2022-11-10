@@ -34,33 +34,13 @@ public class FriendsFragment extends Fragment {
         requestsButton = v.findViewById(R.id.requestsButtonf);
         recommendationsButton = v.findViewById(R.id.recommendationsButton);
 
-        searchUsersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), FindFriendActivity.class));
-            }
-        });
+        searchUsersButton.setOnClickListener(view -> startActivity(new Intent(requireActivity().getApplicationContext(), FindFriendActivity.class)));
 
-        friendsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), FriendListActivity.class));
-            }
-        });
+        friendsButton.setOnClickListener(view -> startActivity(new Intent(requireActivity().getApplicationContext(), FriendListActivity.class)));
 
-        requestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), RequestsActivity.class));
-            }
-        });
+        requestsButton.setOnClickListener(view -> startActivity(new Intent(requireActivity().getApplicationContext(), RequestsActivity.class)));
 
-        recommendationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), RecommendationsViewActivity.class));
-            }
-        });
+        recommendationsButton.setOnClickListener(view -> startActivity(new Intent(requireActivity().getApplicationContext(), RecommendationsViewActivity.class)));
 
         return v;
     }

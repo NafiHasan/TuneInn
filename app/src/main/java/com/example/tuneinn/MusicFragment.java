@@ -56,7 +56,7 @@ public class MusicFragment extends Fragment {
         playlists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(getContext(),PlaylistActivity.class);
+                Intent intent= new Intent(requireActivity().getApplicationContext(),PlaylistActivity.class);
                 startActivity(intent);
             }
         });
@@ -77,7 +77,7 @@ public class MusicFragment extends Fragment {
 
     boolean hasAccessToStorage()
     {
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)return true;
+        if(ContextCompat.checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)return true;
         else return false;
     }
 

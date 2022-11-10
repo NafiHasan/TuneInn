@@ -94,9 +94,9 @@ public class FindFriendActivity extends AppCompatActivity {
                 return new FindFriendViewHolder(view);
             }
         };
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FindFriendActivity.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(FindFriendActivity.this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(findFriendRecycler.getContext(),
-                ((LinearLayoutManager) layoutManager).getOrientation());
+                layoutManager.getOrientation());
         findFriendRecycler.addItemDecoration(dividerItemDecoration);
         adapter.startListening();
         findFriendRecycler.setAdapter(adapter);

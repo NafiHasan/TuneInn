@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Objects;
+
 public class PartyFragment extends Fragment {
     View v;
     WifiManager wifiManager;
@@ -29,7 +31,9 @@ public class PartyFragment extends Fragment {
 
         Button createParty = v.findViewById(R.id.goToPartyPageButton);
 
-        wifiManager= (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager= (WifiManager) requireContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        wifiManager= (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+// change previous line with this line if error occurs
         wifiManager.setWifiEnabled(false);
         wifiManager.setWifiEnabled(true);
 
@@ -37,7 +41,7 @@ public class PartyFragment extends Fragment {
         createParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), PartyActivity.class));
+                startActivity(new Intent(requireActivity().getApplicationContext(), PartyActivity.class));
             }
         });
 

@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment {
     View v;
 
@@ -56,12 +58,12 @@ public class ProfileFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
        profilePageButton.setOnClickListener(view -> {
-           startActivity(new Intent(getContext(), ProfileActivity.class));
+           startActivity(new Intent(requireActivity().getApplicationContext(), ProfileActivity.class));
        });
 
        logoutButton.setOnClickListener(view -> {
             mAuth.signOut();
-           startActivity(new Intent(getContext(), LoginActivity.class));
+           startActivity(new Intent(requireActivity().getApplicationContext(), LoginActivity.class));
             getActivity().finish();
        });
 
@@ -85,13 +87,13 @@ public class ProfileFragment extends Fragment {
 //                    Toast.makeText(getContext(), "Success retrieving data", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity().getApplicationContext(), "Error retrieving data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error in database!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), "Error in database!", Toast.LENGTH_SHORT).show();
             }
         });
 
